@@ -1,0 +1,12 @@
+"..\Output\STARTUP.obj",
+"..\Output\delay.obj",
+"..\Output\adc.obj",
+"..\Output\gpio.obj",
+"..\Output\main.obj",
+"..\Output\pwm.obj",
+"..\Output\tim.obj",
+"..\Output\uart.obj",
+"..\Output\ntc.obj",
+"..\Output\Output_220V.obj" 
+TO "..\Output\Power_board_350" 
+PRINT(".\Listings\Power_board_350.m51") RAMSIZE(256) 

@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "stc8h.h": "c",
+        "gpio.h": "c",
+        "STC8H.H": "cpp",
+        "sys.h": "c",
+        "delay.h": "c",
+        "adc.h": "c"
+    }
+}
