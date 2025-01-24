@@ -186,7 +186,7 @@
         </Utilities>
         <Target51>
           <Target51Misc>
-            <MemoryModel>0</MemoryModel>
+            <MemoryModel>2</MemoryModel>
             <RTOS>0</RTOS>
             <RomSize>2</RomSize>
             <DataHold>0</DataHold>
@@ -436,6 +436,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\uart.c</FilePath>
             </File>
+            <File>
+              <FileName>eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\eeprom.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -445,6 +450,16 @@
               <FileName>ntc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\ntc.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm_crl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\pwm_crl.c</FilePath>
+            </File>
+            <File>
+              <FileName>rs485_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\rs485_comm.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,0 +1,1 @@
+"..\BSP\Src\rs485.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\rs485.lst) OBJECT(..\Output\rs485.obj)

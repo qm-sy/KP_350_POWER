@@ -6,6 +6,15 @@
         "STC8H.H": "cpp",
         "sys.h": "c",
         "delay.h": "c",
-        "adc.h": "c"
+        "adc.h": "c",
+        "eeprom.h": "c",
+        "ntc.h": "c",
+        "pwm.h": "c",
+        "pwm_crl.h": "c",
+        "uart.h": "c",
+        "RS485.C": "cpp",
+        "rs485.h": "c",
+        "rs485_comm.h": "c",
+        "tim.h": "c"
     }
 }

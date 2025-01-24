@@ -17,7 +17,7 @@
  *
  * @return  void
  */
-void GPIO_Init()
+void GPIO_Init( void )
 {
     P0M0 = 0X00;    P0M1 = 0X00;    
     P1M0 = 0X00;    P1M1 = 0X00;     

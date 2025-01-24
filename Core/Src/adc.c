@@ -3,14 +3,15 @@
 #define ADC_POWER 0X80
 #define ADC_START 0X40
 #define ADC_FLAG  0X20
+
 /**
  * @brief	ADC初始化
  *
  * @param   void
  *
  * @return  void
- */
-void ADC_Init(void)
+**/
+void ADC_Init( void )
 {	
 	ADC_CONTR |= ADC_POWER;		//开AD转换电源
 	delay_ms(10);               //适当延时等待AD转换供电稳定
@@ -31,8 +32,8 @@ void ADC_Init(void)
  * @param   void
  *
  * @return  adc_value：12位ADC value
- */
-uint16_t Get_ADC_12bit(uint8_t ADC_Channel)	
+**/
+uint16_t Get_ADC_12bit( uint8_t ADC_Channel )	
 {
 	uint16_t adc_value = 0;
 

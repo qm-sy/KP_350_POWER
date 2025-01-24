@@ -1,17 +1,101 @@
-C51 COMPILER V9.60.7.0   PWM                                                               01/23/2025 22:52:05 PAGE 1   
+C51 COMPILER V9.60.7.0   PWM                                                               01/24/2025 16:24:47 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PWM
 OBJECT MODULE PLACED IN ..\Output\pwm.obj
-COMPILER INVOKED BY: D:\APP\Keil_STM32\C51\BIN\C51.EXE ..\Core\Src\pwm.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP\Inc;..\C
-                    -ore\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\pwm.lst) OBJECT(..\Output\pwm.obj)
+COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\Core\Src\pwm.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP\Inc;.
+                    -.\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\pwm.lst) OBJECT(..\Output\pwm.obj
+                    -)
 
 line level    source
 
+   1          #include "pwm.h"
+   2          
+   3          #define PWMx_7      7
+   4          #define PWMx_8      8
+   5          
+   6          /**
+   7           * @brief       PWM初始化 Fpwm = SYSclk / (PWMx_PSCR + 1)*(PWMx_ARR + 1)
+   8           *
+   9           * @param   void
+  10           *
+  11           * @return  void
+  12          **/
+  13          void PWM_Init( void )
+  14          {
+  15   1              P_SW2     |= 0X80;  
+  16   1              
+  17   1          PWMB_PS   |= 0x00;          //高级 PWM 通道 PWM7-P2.2  PWM8-P2.3
+  18   1      
+  19   1          PWMB_CCER2 = 0x00;          //清零CC7E、CC8E关闭通道
+  20   1      
+  21   1          PWMB_CCMR3 = 0x70;          //输入捕获n滤波器选择 PWM7
+  22   1          PWMB_CCMR4 = 0x70;          //输入捕获n滤波器选择 PWM8
+  23   1      
+  24   1          PWMB_CCER2 = 0x11;          //配置通道PWM7 & PWM8 输出使能和极性 
+  25   1      
+  26   1          PWMB_ARR   = 0x0452;        //设置自动重装载寄存器值
+  27   1                       
+  28   1          PWMB_PSCR  = 0x0008;        //设置频率   频率越大 波形越平滑  1ms
+  29   1      
+  30   1          PWMB_CCR7  = 0x012C;        //设置PWM7占空比
+  31   1          PWMB_CCR8  = 0x012C;        //设置PWM8占空比
+  32   1      
+  33   1          PWMB_ENO  |= 0x50;          //使能 PWM7 & PWM8 输出
+  34   1      
+  35   1          PWMB_BKR   = 0x80;          //使能主输出
+  36   1          PWMB_CR1  |= 0x01;          //将CEN2位置1，开始计时        
+  37   1      }
+  38          
+  39          /**
+  40           * @brief       PWM输出关闭
+  41           *
+  42           * @param   pwm_channel:需要关闭的pwm通道
+  43           *
+  44           * @return  void
+  45          **/
+  46          void PWM_Close( uint8_t pwm_channel )
+  47          {
+  48   1          switch(pwm_channel)
+  49   1          {
+  50   2              case PWMx_7:
+  51   2                  PWMB_CCER2 &= ~0x01;
+  52   2                  break;
+  53   2              case PWMx_8:
+C51 COMPILER V9.60.7.0   PWM                                                               01/24/2025 16:24:47 PAGE 2   
+
+  54   2                  PWMB_CCER2 &= ~0x10;
+  55   2                  break;      
+  56   2              default:
+  57   2                  break;                          
+  58   2          }
+  59   1      }
+  60          
+  61          /**
+  62           * @brief       PWM输出开启
+  63           *
+  64           * @param   pwm_channel:需要开启的pwm通道
+  65           *
+  66           * @return  void
+  67          **/
+  68          void PWM_Start( uint8_t pwm_channel )
+  69          {
+  70   1          switch(pwm_channel)
+  71   1          {
+  72   2              case PWMx_7:
+  73   2                  PWMB_CCER2 |= 0x01;
+  74   2                  break;
+  75   2              case PWMx_8:
+  76   2                  PWMB_CCER2 |= 0x10;
+  77   2                  break;      
+  78   2              default:
+  79   2                  break;                          
+  80   2          }
+  81   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   ----    ----
+   CODE SIZE        =    133    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

@@ -1,0 +1,49 @@
+C51 COMPILER V9.60.7.0   PWM_CRL                                                           01/24/2025 16:24:47 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PWM_CRL
+OBJECT MODULE PLACED IN ..\Output\pwm_crl.obj
+COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\BSP\Src\pwm_crl.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP\In
+                    -c;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\pwm_crl.lst) OBJECT(..\Output\
+                    -pwm_crl.obj)
+
+line level    source
+
+   1          #include "pwm_crl.h"
+   2          
+   3          /**
+   4           * @brief       通过调节PWM占空比实现对应的风力大小
+   5           *
+   6           * @param   channel_num：pwm通道
+   7           * @param   wind_num：风力大小
+   8           *
+   9           * @return  void
+  10          **/
+  11          void PWM_Crl( uint8_t pwm_channel, uint8_t wind_level )
+  12          {
+  13   1          switch(pwm_channel)
+  14   1          {
+  15   2              case PWMx_7:
+  16   2                  PWMB_CCR7 = 184 * wind_level;
+  17   2                  break;
+  18   2              case PWMx_8:
+  19   2                  PWMB_CCR8 = 184 * wind_level;
+  20   2                  break;      
+  21   2              default:
+  22   2                  break;                          
+  23   2          }
+  24   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     35    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

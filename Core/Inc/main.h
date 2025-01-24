@@ -8,5 +8,7 @@
 #include "adc.h"
 #include "tim.h"
 #include "uart.h"
+#include "ntc.h"
+#include "pwm_crl.h"
 
 #endif

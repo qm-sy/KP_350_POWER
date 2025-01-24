@@ -30,6 +30,6 @@ sbit AC_Out3   = P4^3;
 sbit AC_Out4   = P4^4;
 sbit DR2       = P4^7;
 
-void GPIO_Init();
+void GPIO_Init( void );
 
 #endif

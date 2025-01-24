@@ -6,7 +6,10 @@
 "..\Output\pwm.obj",
 "..\Output\tim.obj",
 "..\Output\uart.obj",
+"..\Output\eeprom.obj",
 "..\Output\ntc.obj",
+"..\Output\pwm_crl.obj",
+"..\Output\rs485_comm.obj",
 "..\Output\Output_220V.obj" 
 TO "..\Output\Power_board_350" 
 PRINT(".\Listings\Power_board_350.m51") RAMSIZE(256) 
