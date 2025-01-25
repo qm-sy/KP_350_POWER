@@ -10,5 +10,6 @@
 #include "uart.h"
 #include "ntc.h"
 #include "pwm_crl.h"
+#include "rs485_comm.h"
 
 #endif

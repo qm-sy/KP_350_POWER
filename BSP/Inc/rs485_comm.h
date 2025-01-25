@@ -16,6 +16,9 @@ typedef struct
     uint8_t     DR_Flag;                //DR
 }RS485;
 
+extern RS485 rs485;
+void Uart2_Sendbyte( uint8_t dat );
 void Uart2_SendStr( uint8_t *sendstr );
+void uart2_test( void );
 
 #endif

@@ -33,7 +33,7 @@ void Uart1_Init( void )     //115200bps@11.0592MHz
 **/
 void Uart2_Init( void )       //115200bps@11.0592MHz
 {
-    P_SW2 = 0X00;          //选择P3.0 P3.1为UART引脚
+    P_SW2 = 0X00;          //选择P1.0 P1.1为UART引脚
 
 	S2CON = 0x50;           //8位数据,可变波特率
 
