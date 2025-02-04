@@ -452,14 +452,19 @@
               <FilePath>..\BSP\Src\ntc.c</FilePath>
             </File>
             <File>
-              <FileName>pwm_crl.c</FileName>
+              <FileName>power_crl.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Src\pwm_crl.c</FilePath>
+              <FilePath>..\BSP\Src\power_crl.c</FilePath>
             </File>
             <File>
-              <FileName>rs485_comm.c</FileName>
+              <FileName>cc6903.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Src\rs485_comm.c</FilePath>
+              <FilePath>..\BSP\Src\cc6903.c</FilePath>
+            </File>
+            <File>
+              <FileName>communication.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\communication.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -467,9 +472,14 @@
           <GroupName>Emembed</GroupName>
           <Files>
             <File>
-              <FileName>Output_220V.c</FileName>
+              <FileName>modbus_rtu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Emembed\Src\Output_220V.c</FilePath>
+              <FilePath>..\Emembed\Src\modbus_rtu.c</FilePath>
+            </File>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Emembed\Src\common.c</FilePath>
             </File>
           </Files>
         </Group>

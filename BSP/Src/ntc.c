@@ -1,6 +1,7 @@
 #include "ntc.h"
 
 #define NTCTabNum 121
+
 static uint16_t MF52E_tab[NTCTabNum]={
     282,/* 0 */
     291,/* 1 */     300,/* 2 */     309,/* 3 */     318,/* 3 */     327,/* 5 */

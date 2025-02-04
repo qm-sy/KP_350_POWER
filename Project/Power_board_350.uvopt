@@ -339,8 +339,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\pwm_crl.c</PathWithFileName>
-      <FilenameWithoutPath>pwm_crl.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\power_crl.c</PathWithFileName>
+      <FilenameWithoutPath>power_crl.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -351,8 +351,20 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\rs485_comm.c</PathWithFileName>
-      <FilenameWithoutPath>rs485_comm.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\cc6903.c</PathWithFileName>
+      <FilenameWithoutPath>cc6903.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>14</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\BSP\Src\communication.c</PathWithFileName>
+      <FilenameWithoutPath>communication.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -360,19 +372,31 @@
 
   <Group>
     <GroupName>Emembed</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>6</GroupNumber>
-      <FileNumber>14</FileNumber>
+      <FileNumber>15</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Emembed\Src\Output_220V.c</PathWithFileName>
-      <FilenameWithoutPath>Output_220V.c</FilenameWithoutPath>
+      <PathWithFileName>..\Emembed\Src\modbus_rtu.c</PathWithFileName>
+      <FilenameWithoutPath>modbus_rtu.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>16</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Emembed\Src\common.c</PathWithFileName>
+      <FilenameWithoutPath>common.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -29,7 +29,7 @@ void ADC_Init( void )
 /**
  * @brief	获取ADC值
  *
- * @param   void
+ * @param   ADC_Channel：ADC通道对应值
  *
  * @return  adc_value：12位ADC value
 **/
@@ -38,14 +38,16 @@ uint16_t Get_ADC_12bit( uint8_t ADC_Channel )
 	uint16_t adc_value = 0;
 
 	/* 1, 启动ADC转换                           */
+	ADC_CONTR &= 0XF0;
 	ADC_CONTR |=  ADC_START | ADC_Channel;
 
     /* 2, 等待ADC转换完成                       */
     while (!(ADC_CONTR & ADC_FLAG));  
 	ADC_CONTR &= ~ADC_FLAG; 
+	ADC_CONTR &= ~ADC_START;
 
 	/* 3, 赋值给 adc_value 作为返回值           */
 	adc_value = ADC_RES << 8 | ADC_RESL;			//ADC转换结果ADC_RES存高4位，ADC_RESL存低8位
-	
+
 	return adc_value;	
 }

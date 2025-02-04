@@ -1,7 +1,8 @@
-#ifndef __RS485_COMM_H_
-#define __RS485_COMM_H_
+#ifndef __COMMUNICATION_H_
+#define __COMMUNICATION_H_
 
 #include "uart.h"
+#include "stdio.h"
 
 typedef struct 
 {
@@ -17,8 +18,13 @@ typedef struct
 }RS485;
 
 extern RS485 rs485;
+
 void Uart2_Sendbyte( uint8_t dat );
 void Uart2_SendStr( uint8_t *sendstr );
-void uart2_test( void );
+void Uart2_Send_Statu_Init( void );
+
+void Uart4_Sendbyte( uint8_t dat );
+void Uart4_SendStr( uint8_t *sendstr );
+char putchar(char c);
 
 #endif

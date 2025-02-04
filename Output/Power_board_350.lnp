@@ -8,8 +8,10 @@
 "..\Output\uart.obj",
 "..\Output\eeprom.obj",
 "..\Output\ntc.obj",
-"..\Output\pwm_crl.obj",
-"..\Output\rs485_comm.obj",
-"..\Output\Output_220V.obj" 
+"..\Output\power_crl.obj",
+"..\Output\cc6903.obj",
+"..\Output\communication.obj",
+"..\Output\modbus_rtu.obj",
+"..\Output\common.obj" 
 TO "..\Output\Power_board_350" 
 PRINT(".\Listings\Power_board_350.m51") RAMSIZE(256) 

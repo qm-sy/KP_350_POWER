@@ -3,6 +3,9 @@
 
 #include "sys.h"
 
-void Timer0_Init( void );		//1毫秒@11.0592MHz
+void Timer0_Init( void );		
+void Timer1_Init( void );
+void INT0_Init( void );
+void Timer3_Init( void );
 
 #endif

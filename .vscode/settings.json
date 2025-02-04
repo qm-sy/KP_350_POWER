@@ -15,6 +15,12 @@
         "RS485.C": "cpp",
         "rs485.h": "c",
         "rs485_comm.h": "c",
-        "tim.h": "c"
+        "tim.h": "c",
+        "power_crl.h": "c",
+        "modbus_rtu.h": "c",
+        "common.h": "c",
+        "stdio.h": "c",
+        "cc6903.h": "c",
+        "communication.h": "c"
     }
 }

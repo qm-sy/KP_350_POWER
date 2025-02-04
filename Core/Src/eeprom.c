@@ -119,5 +119,10 @@ uint8_t ISP_Read( uint16_t addr )
     return dat;
 }
 
-
+void eeprom_test( void )
+{
+    ISP_Earse(0x0000);
+    ISP_Write(0x0000,0xaa);
+    ISP_Read(0X0000);
+}
 

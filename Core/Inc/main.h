@@ -9,7 +9,10 @@
 #include "tim.h"
 #include "uart.h"
 #include "ntc.h"
-#include "pwm_crl.h"
-#include "rs485_comm.h"
+#include "communication.h"
+#include "power_crl.h"
+#include "eeprom.h"
+#include "modbus_rtu.h"
+#include "pwm.h"
 
 #endif
