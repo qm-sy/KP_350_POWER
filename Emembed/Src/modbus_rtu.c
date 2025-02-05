@@ -58,7 +58,6 @@ void Modbus_Event( void )
 **/
 void Modbus_Fun3( void )
 {
-    uint16_t crc;
     uint8_t info_byte = 0;
 
     switch (rs485.RX2_buf[3])
@@ -83,14 +82,7 @@ void Modbus_Fun3( void )
             rs485.TX2_buf[3] = 0x00;                    //Data1 H
             rs485.TX2_buf[4] = info_byte;               //Data1 L
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,5);
-
-            rs485.TX2_buf[5] = crc>>8;                  //CRC H
-            rs485.TX2_buf[6] = crc;                     //CRC L
-
-            rs485.TX2_send_bytelength = 7;
-
-            S2CON |= S2TI;                              //开始发送
+            slave_to_master(5);
 
             break;
 
@@ -102,19 +94,12 @@ void Modbus_Fun3( void )
 
             if( EX0 & 1 )
             {
-                info_byte |= 0x01;                      //PWM7开关状态
+                info_byte |= 0x01;                      //LED开关状态
             }
             rs485.TX2_buf[3] = 0x00;                    //Data1 H
             rs485.TX2_buf[4] = info_byte;               //Data1 L
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,5);
- 
-            rs485.TX2_buf[5] = crc>>8;                  //CRC H
-            rs485.TX2_buf[6] = crc;                     //CRC L
-
-            rs485.TX2_send_bytelength = 7;
-
-            S2CON |= S2TI;                              //开始发送
+            slave_to_master(5);
 
             break;
 
@@ -125,7 +110,7 @@ void Modbus_Fun3( void )
             rs485.TX2_buf[2] = 2;                       //Byte Count
 
             info_byte = ((ac_220.time_delay - 58000) / 75)<<1;
-            if( ac_220.AC_Statu & 1 )
+            if( EX0 & 1 )
             {
                 info_byte |= 0x01;                      //220运行状态
             }
@@ -133,14 +118,22 @@ void Modbus_Fun3( void )
             rs485.TX2_buf[3] = 0x00;                    //Data1 H
             rs485.TX2_buf[4] = info_byte;              //Data1 L
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,5);
- 
-            rs485.TX2_buf[5] = crc>>8;                  //CRC H
-            rs485.TX2_buf[6] = crc;                     //CRC L
+            slave_to_master(5);
 
-            rs485.TX2_send_bytelength = 7;
+            break;
 
-            S2CON |= S2TI;                              //开始发送
+        /* 40004 && 40005   温度报警值                      */
+        case 3 :
+            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
+            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
+            rs485.TX2_buf[2] = 4;                       //Byte Count
+
+            rs485.TX2_buf[3] = temp.power_ch2_temp_alarm;   //Data1 H
+            rs485.TX2_buf[4] = temp.power_ch2_temp_alarm;   //Data1 L
+            rs485.TX2_buf[5] = 0x00;                        //Data2 H
+            rs485.TX2_buf[6] = temp.power_ch3_temp_alarm;   //Data2 L
+
+            slave_to_master(7);
 
             break;
 
@@ -158,8 +151,6 @@ void Modbus_Fun3( void )
 **/
 void Modbus_Fun4( void )
 {
-    uint16_t crc;
-
     switch (rs485.RX2_buf[3])
     {
         /*    30001 && 30002 4路NTC                       */
@@ -172,14 +163,7 @@ void Modbus_Fun4( void )
             rs485.RX2_buf[5] = get_temp(NTC_4);
             rs485.RX2_buf[6] = get_temp(NTC_3);
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,7);
-
-            rs485.TX2_buf[7] = crc>>8;                  //CRC H
-            rs485.TX2_buf[8] = crc;                     //CRC L
-            
-            rs485.TX2_send_bytelength = 9;
-
-            S2CON |= S2TI;                              //开始发送
+            slave_to_master(7);
 
             break;
 
@@ -192,13 +176,7 @@ void Modbus_Fun4( void )
             rs485.TX2_buf[3] = 0xaa;                    //Data1 H
             rs485.TX2_buf[4] = 0xbb;                    //Data1 L
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,5);
-            rs485.TX2_buf[5] = crc>>8;                  //CRC H
-            rs485.TX2_buf[6] = crc;                     //CRC L
-
-            rs485.TX2_send_bytelength = 7;
-
-            S2CON |= S2TI;                              //开始发送
+            slave_to_master(5);
 
             break;
 
@@ -213,13 +191,7 @@ void Modbus_Fun4( void )
             rs485.TX2_buf[5] = 0x00;                    //Data2 H
             rs485.TX2_buf[6] = get_current(I_OUT3);     //Data2 L
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,7);
-            rs485.TX2_buf[7] = crc>>8;                  //CRC H
-            rs485.TX2_buf[8] = crc;                     //CRC L
-
-            rs485.TX2_send_bytelength = 9;
-
-            S2CON |= S2TI;                              //开始发送
+            slave_to_master(5);
 
             break;
 
@@ -264,15 +236,18 @@ void Modbus_Fun6( void )
             {
                 PWMB_CCER2 &= 0XEF;
             }
+            
             PWMB_CCR7 = ((rs485.TX2_buf[5]>>2) & 0x07)*184;
             PWMB_CCR8 = (rs485.TX2_buf[5]>>5)*184;
 
-            
             rs485.TX2_send_bytelength = 8;
 
             S2CON |= S2TI;                              //开始发送
 
-            break;
+            eeprom.pwm_info = rs485.TX2_buf[5];
+            eeprom_data_record();
+
+          break;
 
         /*  40002  24V LED开关状态设置                          */
         case 1:                                         
@@ -296,6 +271,9 @@ void Modbus_Fun6( void )
             rs485.TX2_send_bytelength = 8;
 
             S2CON |= S2TI;                              //开始发送
+
+            eeprom.led_info = rs485.TX2_buf[5];
+            eeprom_data_record();
 
             break;
 
@@ -323,6 +301,9 @@ void Modbus_Fun6( void )
 
             S2CON |= S2TI;                              //开始发送
 
+            eeprom.ac220_info = rs485.TX2_buf[5];
+            eeprom_data_record();
+
             break;  
 
         default:
@@ -330,6 +311,50 @@ void Modbus_Fun6( void )
     }
 }
 
+/**
+ * @brief	写多个输出寄存器  16
+ *
+ * @param   void
+ *
+ * @return  void 
+**/
+void Modbus_Fun16( void )
+{
+    uint16_t crc;
+
+    switch (rs485.RX2_buf[3])
+    {
+        case 3:
+            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
+            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
+            rs485.TX2_buf[2] = rs485.RX2_buf[2];        //start reg H
+            rs485.TX2_buf[3] = rs485.RX2_buf[3];        //start reg L
+            rs485.TX2_buf[4] = rs485.RX2_buf[4];        //Num H
+            rs485.TX2_buf[5] = rs485.RX2_buf[5];        //Num L
+
+            temp.temp1_alarm_value = rs485.RX2_buf[9];
+            temp.temp2_alarm_value = rs485.RX2_buf[8];
+            temp.temp3_alarm_value = rs485.RX2_buf[11];
+
+            crc = MODBUS_CRC16(rs485.TX2_buf,6);
+
+            rs485.TX2_buf[6] = crc>>8;                 //CRC H
+            rs485.TX2_buf[7] = crc;                  //CRC L
+
+            rs485.TX2_send_bytelength = 8;
+
+            S2CON |= S2TI;                                  //开始发送
+
+            eeprom.temp_alarm_value1 = temp.temp1_alarm_value;
+            eeprom.temp_alarm_value2 = temp.temp2_alarm_value;
+            eeprom.temp_alarm_value3 = temp.temp3_alarm_value;
+
+            eeprom_data_record();
+
+        break;
+    }
+
+}
 /**
  * @brief	crc校验函数
  * 
@@ -367,4 +392,25 @@ uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length)
 	}while(--length != 0);
 
 	return	(crc16);
+}
+
+/**
+ * @brief	从机回复主机
+ *  
+ * @param   length:数据长度           
+ * 
+  @return  crc16:crc校验的值 2byte
+ */
+void slave_to_master(uint8_t length)
+{
+    uint16_t crc;
+
+    crc = MODBUS_CRC16(rs485.TX2_buf,length);
+
+    rs485.TX2_buf[length] = crc>>8;                 //CRC H
+    rs485.TX2_buf[length+1] = crc;                  //CRC L
+
+    rs485.TX2_send_bytelength = length + 2;
+
+    S2CON |= S2TI;                                  //开始发送
 }

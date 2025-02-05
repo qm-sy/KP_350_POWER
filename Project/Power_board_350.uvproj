@@ -466,6 +466,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\communication.c</FilePath>
             </File>
+            <File>
+              <FileName>eeprom_crl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\eeprom_crl.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

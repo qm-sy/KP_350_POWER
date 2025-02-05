@@ -21,6 +21,11 @@
         "common.h": "c",
         "stdio.h": "c",
         "cc6903.h": "c",
-        "communication.h": "c"
+        "communication.h": "c",
+        "eeprom_crl.h": "c"
+    },
+    "files.exclude": {
+        "**/.vscode": true,
+        "**/libRichForced.h": true
     }
 }

@@ -2,6 +2,8 @@
 
 #define NTCTabNum 121
 
+TEMP temp;
+
 static uint16_t MF52E_tab[NTCTabNum]={
     282,/* 0 */
     291,/* 1 */     300,/* 2 */     309,/* 3 */     318,/* 3 */     327,/* 5 */
@@ -78,4 +80,48 @@ uint16_t get_temp( uint8_t channle_x )
     temp = LookupTable( MF52E_tab, NTCTabNum, adc_val );
 
     return temp;
+}
+
+/**
+ * @brief 温度扫描，1s/次 控制功率开关
+ *
+ * @param[in] 
+ * 
+ * @return  
+ * 
+**/
+void temp_scan( void )
+{
+    if( temp.temp_scan_flag == 1)
+    {
+        temp.temp1_value =  get_temp(NTC_1);
+        temp.temp2_value =  get_temp(NTC_2);
+        temp.temp3_value =  get_temp(NTC_3);
+
+        if( temp.temp1_value >= temp.power_ch1_temp_alarm )
+        {
+            ac_220.ac220_on_off &= ~0x01;        //001
+        }else
+        {
+            ac_220.ac220_on_off |= 0x01;
+        }
+
+        if( temp.temp2_value >= temp.power_ch2_temp_alarm )
+        {
+            ac_220.ac220_on_off &= ~0x02;        //101
+        }else
+        {
+            ac_220.ac220_on_off |= 0x02;
+        }
+
+        if( temp.temp3_value >= temp.power_ch3_temp_alarm )
+        {
+            ac_220.ac220_on_off &= ~0x04;        //011
+        }else
+        {
+            ac_220.ac220_on_off |= 0x04;
+        }
+
+        temp.temp_scan_flag = 0;
+    }
 }

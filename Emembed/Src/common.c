@@ -1,7 +1,7 @@
 #include "common.h"
 
 /**
- * @brief	一些定时执行的事件   Timer3：10ms
+ * @brief	一些定时执行的事件   Timer3：10us
  *
  * @param   
  *
@@ -9,13 +9,20 @@
 **/
 void Tim3_ISR( void ) interrupt 19 
 {
-    /* 1, 100ms内如果无外部中断产生，则说明无220V输入   */
-    ac_220.AC_Statu_cnt--;
-    if( ac_220.AC_Statu_cnt == 0)
+    static uint8_t trun_flag = 1;
+    /* 1, 220V AC输出CH1~CH3固定最大功率输出           */
+    if( trun_flag == 0 )
     {
-        ac_220.AC_Statu = 0;
-    }else
+ 
+        AC_Out1 &= (ac_220.ac220_on_off & ~0x01); 
+        AC_Out2 &= (ac_220.ac220_on_off & ~0x02); 
+        AC_Out3 &= (ac_220.ac220_on_off & ~0x04); 
+        trun_flag = 1;
+        IE2  |=  0x00;				//关闭IE2-ET3，TIM3中断
+    }
+    if( trun_flag == 1 )
     {
-        ac_220.AC_Statu = 1;
+        AC_Out1 = AC_Out2 = AC_Out3 = 0;
+        trun_flag = 0;
     }
 }

@@ -10,13 +10,8 @@
 
 typedef struct 
 {
+    uint8_t  ac220_on_off;
     uint8_t  zero_flag;          //220V输入触发标志位
-    uint8_t  AC_Statu_cnt;       //计时，100ms内无外部中断触发说明没有220V接入
-    uint8_t  AC_Statu;
-    uint8_t  power_ch1;          //220V输出通道1
-    uint8_t  power_ch2;          //220V输出通道2
-    uint8_t  power_ch3;          //220V输出通道3
-    uint8_t  power_ch4;          //220V输出通道4
     uint16_t time_delay;         //移相延时
 }AC_220;
 

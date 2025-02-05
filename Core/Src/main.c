@@ -3,11 +3,13 @@
 void main( void )
 {
     P_SW2 |= 0x80;
+    
     GPIO_Init();
+    eeprom_statu_judge();
     Uart4_Init();
     /*  温度控制  */
     ADC_Init();
-    
+
     /*  485控制  */
     Uart2_Init();
     Uart2_Send_Statu_Init();

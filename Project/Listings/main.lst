@@ -1,11 +1,11 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              02/04/2025 21:02:31 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              02/05/2025 16:57:39 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN ..\Output\main.obj
-COMPILER INVOKED BY: D:\APP\Keil_STM32\C51\BIN\C51.EXE ..\Core\Src\main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP\I
-                    -nc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(..\Output\ma
-                    -in.obj)
+COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\Core\Src\main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP\Inc;
+                    -..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(..\Output\main.
+                    -obj)
 
 line level    source
 
@@ -14,39 +14,41 @@ line level    source
    3          void main( void )
    4          {
    5   1          P_SW2 |= 0x80;
-   6   1          GPIO_Init();
-   7   1          Uart4_Init();
-   8   1          /*  温度控制  */
-   9   1          ADC_Init();
-  10   1          
-  11   1          /*  485控制  */
-  12   1          Uart2_Init();
-  13   1          Uart2_Send_Statu_Init();
-  14   1          Timer0_Init();
-  15   1      
-  16   1          /*  4路220输出控制  */
-  17   1          INT0_Init();
-  18   1          Timer1_Init();
-  19   1          Timer3_Init();
-  20   1          Power_Statu_Init();
-  21   1      
-  22   1          /*  PWM控制  */
-  23   1          PWM_Init();
-  24   1      
-  25   1          EA = 1;
-  26   1         
-  27   1          eeprom_test();
-  28   1      
-  29   1          printf( "========== code start ==========" );
-  30   1          while (1)
-  31   1          {
-  32   2              Modbus_Event();
-  33   2          }  
-  34   1      }
+   6   1          
+   7   1          GPIO_Init();
+   8   1          eeprom_statu_judge();
+   9   1          Uart4_Init();
+  10   1          /*  温度控制  */
+  11   1          ADC_Init();
+  12   1      
+  13   1          /*  485控制  */
+  14   1          Uart2_Init();
+  15   1          Uart2_Send_Statu_Init();
+  16   1          Timer0_Init();
+  17   1      
+  18   1          /*  4路220输出控制  */
+  19   1          INT0_Init();
+  20   1          Timer1_Init();
+  21   1          Timer3_Init();
+  22   1          Power_Statu_Init();
+  23   1      
+  24   1          /*  PWM控制  */
+  25   1          PWM_Init();
+  26   1      
+  27   1          EA = 1;
+  28   1         
+  29   1          eeprom_test();
+  30   1      
+  31   1          printf( "========== code start ==========" );
+  32   1          while (1)
+  33   1          {
+  34   2              Modbus_Event();
+  35   2          }  
+  36   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     55    ----
+   CODE SIZE        =     58    ----
    CONSTANT SIZE    =     33    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

@@ -11,6 +11,7 @@
 "..\Output\power_crl.obj",
 "..\Output\cc6903.obj",
 "..\Output\communication.obj",
+"..\Output\eeprom_crl.obj",
 "..\Output\modbus_rtu.obj",
 "..\Output\common.obj" 
 TO "..\Output\Power_board_350" 
