@@ -22,7 +22,8 @@
         "stdio.h": "c",
         "cc6903.h": "c",
         "communication.h": "c",
-        "eeprom_crl.h": "c"
+        "eeprom_crl.h": "c",
+        "STDIO.H": "cpp"
     },
     "files.exclude": {
         "**/.vscode": true,

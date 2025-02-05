@@ -4,6 +4,26 @@ RS485 rs485;
 uint8_t TX4_busy_Flag = 1;
 
 /**
+ * @brief	串口2调用结构体 rs485 初始化
+ *
+ * @param   
+ *
+ * @return  void
+**/
+void Uart2_Send_Statu_Init( void )
+{
+    rs485.TX2_busy_Flag = 0;
+    rs485.RX2_rev_end_Flag = 0;
+    rs485.TX2_buf[128] = 0;
+    rs485.RX2_buf[128] = 0;
+    rs485.TX2_send_bytelength = 0;
+    rs485.TX2_send_cnt = 0;
+    rs485.RX2_rev_timeout = 0;
+    rs485.RX2_rev_cnt = 0;
+    DR2 = 0;
+}
+
+/**
  * @brief	串口2中断处理函数
  *
  * @param   
@@ -27,6 +47,7 @@ void Uart2_ISR() interrupt 8
         }else
         {
             rs485.TX2_send_cnt = 0;
+            DR2 = 0;
         }
     }
     
@@ -79,54 +100,35 @@ void Tim0_ISR( void ) interrupt 1   //1ms
     } 
 }
 
-/**
- * @brief	串口2发送1字节数据
- *
- * @param   
- *
- * @return  void
-**/
-void Uart2_Sendbyte( uint8_t dat )
-{
-    while( rs485.TX2_busy_Flag );
-    rs485.TX2_busy_Flag = 1;
-    S2BUF = dat;
+// /**
+//  * @brief	串口2发送1字节数据
+//  *
+//  * @param   
+//  *
+//  * @return  void
+// **/
+// void Uart2_Sendbyte( uint8_t dat )
+// {
+//     while( rs485.TX2_busy_Flag );
+//     rs485.TX2_busy_Flag = 1;
+//     S2BUF = dat;
 
-}
+// }
 
-/**
- * @brief	串口2发送字符串
- *
- * @param   
- *
- * @return  void
-**/
-void Uart2_SendStr( uint8_t *sendstr )
-{   
-    while(*sendstr)
-    {
-        Uart2_Sendbyte(*sendstr++);
-    }
-}
-
-/**
- * @brief	串口2调用结构体初始化
- *
- * @param   
- *
- * @return  void
-**/
-void Uart2_Send_Statu_Init( void )
-{
-    rs485.TX2_busy_Flag = 0;
-    rs485.RX2_rev_end_Flag = 0;
-    rs485.TX2_buf[128] = 0;
-    rs485.RX2_buf[128] = 0;
-    rs485.TX2_send_bytelength = 0;
-    rs485.TX2_send_cnt = 0;
-    rs485.RX2_rev_timeout = 0;
-    rs485.RX2_rev_cnt = 0;
-}
+// /**
+//  * @brief	串口2发送字符串
+//  *
+//  * @param   
+//  *
+//  * @return  void
+// **/
+// void Uart2_SendStr( uint8_t *sendstr )
+// {   
+//     while(*sendstr)
+//     {
+//         Uart2_Sendbyte(*sendstr++);
+//     }
+// }
 
 /**
  * @brief	串口4中断处理函数
@@ -150,35 +152,35 @@ void Uart4_ISR() interrupt 18
     }
 }
 
-/**
- * @brief	串口4发送1字节数据
- *
- * @param   
- *
- * @return  void
-**/
-void Uart4_Sendbyte( uint8_t dat )
-{
-    while( TX4_busy_Flag );
-    TX4_busy_Flag = 1;
-    S4BUF = dat;
+// /**
+//  * @brief	串口4发送1字节数据
+//  *
+//  * @param   
+//  *
+//  * @return  void
+// **/
+// void Uart4_Sendbyte( uint8_t dat )
+// {
+//     while( TX4_busy_Flag );
+//     TX4_busy_Flag = 1;
+//     S4BUF = dat;
 
-}
+// }
 
-/**
- * @brief	串口4发送字符串
- *
- * @param   
- *
- * @return  void
-**/
-void Uart4_SendStr( uint8_t *sendstr )
-{   
-    while(*sendstr)
-    {
-        Uart4_Sendbyte(*sendstr++);
-    }
-}
+// /**
+//  * @brief	串口4发送字符串
+//  *
+//  * @param   
+//  *
+//  * @return  void
+// **/
+// void Uart4_SendStr( uint8_t *sendstr )
+// {   
+//     while(*sendstr)
+//     {
+//         Uart4_Sendbyte(*sendstr++);
+//     }
+// }
 
 /**
  * @brief	串口重定向

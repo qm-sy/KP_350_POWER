@@ -1,11 +1,11 @@
-C51 COMPILER V9.60.7.0   EEPROM                                                            02/05/2025 16:57:39 PAGE 1   
+C51 COMPILER V9.60.7.0   EEPROM                                                            02/05/2025 23:03:02 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EEPROM
 OBJECT MODULE PLACED IN ..\Output\eeprom.obj
-COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\Core\Src\eeprom.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP\In
-                    -c;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\eeprom.lst) OBJECT(..\Output\e
-                    -eprom.obj)
+COMPILER INVOKED BY: D:\APP\Keil_STM32\C51\BIN\C51.EXE ..\Core\Src\eeprom.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP
+                    -\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\eeprom.lst) OBJECT(..\Outpu
+                    -t\eeprom.obj)
 
 line level    source
 
@@ -13,8 +13,8 @@ line level    source
    2          
    3          #define EEPROM_Idle     0x00
    4          #define EEPROM_Read     0x01
-   5          #define EEPROM_Write    0x10
-   6          #define EEPROM_Earse    0x11
+   5          #define EEPROM_Write    0x02
+   6          #define EEPROM_Earse    0x03
    7          
    8          #define EEPROM_Enable   0x80        //使能EEPROM操作
    9          #define EEPROM_Disable  0x00        //禁止EEPROM操作
@@ -62,7 +62,7 @@ line level    source
   51   1          IAP_TRIG  = 0X5A;       
   52   1          IAP_TRIG  = 0XA5;                                    
   53   1          
-C51 COMPILER V9.60.7.0   EEPROM                                                            02/05/2025 16:57:39 PAGE 2   
+C51 COMPILER V9.60.7.0   EEPROM                                                            02/05/2025 23:03:02 PAGE 2   
 
   54   1          delay_ms(10);
   55   1          
@@ -126,7 +126,7 @@ line level    source
  113   1          delay_ms(10);
  114   1          
  115   1          dat = IAP_DATA;
-C51 COMPILER V9.60.7.0   EEPROM                                                            02/05/2025 16:57:39 PAGE 3   
+C51 COMPILER V9.60.7.0   EEPROM                                                            02/05/2025 23:03:02 PAGE 3   
 
  116   1          
  117   1          ISP_Idle();
@@ -134,17 +134,11 @@ line level    source
  119   1          return dat;
  120   1      }
  121          
- 122          void eeprom_test( void )
- 123          {
- 124   1          ISP_Earse(0x0000);
- 125   1          ISP_Write(0x0000,0xaa);
- 126   1          ISP_Read(0X0000);
- 127   1      }
- 128          
+ 122          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    129    ----
+   CODE SIZE        =    109    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

@@ -4,6 +4,7 @@
 #include "sys.h"
 #include "adc.h"
 #include "power_crl.h"
+#include "stdio.h"
 
 #define NTC_1        5
 #define NTC_2        6
@@ -12,12 +13,12 @@
 
 typedef struct 
 {
-    uint8_t  temp1_value;   
-    uint8_t  temp2_value;  
-    uint8_t  temp3_value;  
-    uint8_t  temp1_alarm_value;
-    uint8_t  temp2_alarm_value;          
-    uint8_t  temp3_alarm_value;    
+    uint8_t  temp_value1;   
+    uint8_t  temp_value2;  
+    uint8_t  temp_value3;  
+    uint8_t  temp_alarm_value1;
+    uint8_t  temp_alarm_value2;          
+    uint8_t  temp_alarm_value3;    
     uint8_t  temp_scan_flag;
 }TEMP;
 

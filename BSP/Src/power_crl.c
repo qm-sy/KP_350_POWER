@@ -11,7 +11,6 @@ AC_220 ac_220;
 **/
 void Power_Statu_Init( void )
 {
-    ac_220.time_delay = 65500;     //默认最大输出功率
     ac_220.zero_flag  = 0;
 }
 
@@ -33,9 +32,6 @@ void INT0_ISR( void ) interrupt 0
     /* 2, 定时器1开始计时，打开TIM1中断                     */
     TR1 = 1;				     
     ET1 = 1; 
-
-    /* 3,打开TIM3中断                     */
-    IE2  |=  0x20;				
 }
 
 /**

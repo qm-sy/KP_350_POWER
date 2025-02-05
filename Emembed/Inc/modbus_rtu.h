@@ -14,6 +14,7 @@ void Modbus_Event( void );
 void Modbus_Fun3( void );
 void Modbus_Fun4( void );
 void Modbus_Fun6( void );
+void Modbus_Fun16( void );
 void slave_to_master(uint8_t length);
 uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length);
 

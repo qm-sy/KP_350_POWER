@@ -32,15 +32,21 @@ void Modbus_Event( void )
             {
                 switch ( rs485.RX2_buf[1] )
                 {
-                    case 3:
+                    case 0x03:
                         Modbus_Fun3();
                         break;
-                    case 4:
+
+                    case 0x04:
                         Modbus_Fun4();
                         break;
-                    case 6:
+
+                    case 0x06:
                         Modbus_Fun6();
-                        break;                           
+                        break;  
+
+                    case 0x10:  
+                        Modbus_Fun16();
+
                     default:
                         break;
                 }
@@ -128,10 +134,10 @@ void Modbus_Fun3( void )
             rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
             rs485.TX2_buf[2] = 4;                       //Byte Count
 
-            rs485.TX2_buf[3] = temp.power_ch2_temp_alarm;   //Data1 H
-            rs485.TX2_buf[4] = temp.power_ch2_temp_alarm;   //Data1 L
+            rs485.TX2_buf[3] = temp.temp_alarm_value2;   //Data1 H
+            rs485.TX2_buf[4] = temp.temp_alarm_value1;   //Data1 L
             rs485.TX2_buf[5] = 0x00;                        //Data2 H
-            rs485.TX2_buf[6] = temp.power_ch3_temp_alarm;   //Data2 L
+            rs485.TX2_buf[6] = temp.temp_alarm_value3;   //Data2 L
 
             slave_to_master(7);
 
@@ -242,6 +248,7 @@ void Modbus_Fun6( void )
 
             rs485.TX2_send_bytelength = 8;
 
+            DR2 = 1;                                    //485可以发送
             S2CON |= S2TI;                              //开始发送
 
             eeprom.pwm_info = rs485.TX2_buf[5];
@@ -270,6 +277,7 @@ void Modbus_Fun6( void )
             
             rs485.TX2_send_bytelength = 8;
 
+            DR2 = 1;                                    //485可以发送
             S2CON |= S2TI;                              //开始发送
 
             eeprom.led_info = rs485.TX2_buf[5];
@@ -298,7 +306,7 @@ void Modbus_Fun6( void )
             AC_220V_out(rs485.TX2_buf[5]>>1);
 
             rs485.TX2_send_bytelength = 8;
-
+            DR2 = 1;                                    //485可以发送
             S2CON |= S2TI;                              //开始发送
 
             eeprom.ac220_info = rs485.TX2_buf[5];
@@ -323,8 +331,8 @@ void Modbus_Fun16( void )
     uint16_t crc;
 
     switch (rs485.RX2_buf[3])
-    {
         case 3:
+    {
             rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
             rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
             rs485.TX2_buf[2] = rs485.RX2_buf[2];        //start reg H
@@ -332,29 +340,30 @@ void Modbus_Fun16( void )
             rs485.TX2_buf[4] = rs485.RX2_buf[4];        //Num H
             rs485.TX2_buf[5] = rs485.RX2_buf[5];        //Num L
 
-            temp.temp1_alarm_value = rs485.RX2_buf[9];
-            temp.temp2_alarm_value = rs485.RX2_buf[8];
-            temp.temp3_alarm_value = rs485.RX2_buf[11];
+            temp.temp_alarm_value1 = rs485.RX2_buf[8];
+            temp.temp_alarm_value2 = rs485.RX2_buf[7];
+            temp.temp_alarm_value3 = rs485.RX2_buf[10];
 
             crc = MODBUS_CRC16(rs485.TX2_buf,6);
 
             rs485.TX2_buf[6] = crc>>8;                 //CRC H
-            rs485.TX2_buf[7] = crc;                  //CRC L
+            rs485.TX2_buf[7] = crc;                    //CRC L
 
             rs485.TX2_send_bytelength = 8;
 
-            S2CON |= S2TI;                                  //开始发送
+            DR2 = 1;                                   //485可以发送
+            S2CON |= S2TI;                             //开始发送
 
-            eeprom.temp_alarm_value1 = temp.temp1_alarm_value;
-            eeprom.temp_alarm_value2 = temp.temp2_alarm_value;
-            eeprom.temp_alarm_value3 = temp.temp3_alarm_value;
+            eeprom.temp_alarm_value1 = temp.temp_alarm_value1;
+            eeprom.temp_alarm_value2 = temp.temp_alarm_value2;
+            eeprom.temp_alarm_value3 = temp.temp_alarm_value3;
 
             eeprom_data_record();
 
         break;
     }
-
 }
+
 /**
  * @brief	crc校验函数
  * 
@@ -412,5 +421,6 @@ void slave_to_master(uint8_t length)
 
     rs485.TX2_send_bytelength = length + 2;
 
+    DR2 = 1;                                        //485可以发送
     S2CON |= S2TI;                                  //开始发送
 }

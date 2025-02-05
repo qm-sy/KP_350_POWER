@@ -1,11 +1,11 @@
-C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 16:57:39 PAGE 1   
+C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 23:03:02 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE COMMUNICATION
 OBJECT MODULE PLACED IN ..\Output\communication.obj
-COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\BSP\Src\communication.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\
-                    -BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\communication.lst) OBJEC
-                    -T(..\Output\communication.obj)
+COMPILER INVOKED BY: D:\APP\Keil_STM32\C51\BIN\C51.EXE ..\BSP\Src\communication.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(
+                    -..\BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\communication.lst) OB
+                    -JECT(..\Output\communication.obj)
 
 line level    source
 
@@ -15,210 +15,212 @@ line level    source
    4          uint8_t TX4_busy_Flag = 1;
    5          
    6          /**
-   7           * @brief       串口2中断处理函数
+   7           * @brief       串口2调用结构体 rs485 初始化
    8           *
    9           * @param   
   10           *
   11           * @return  void
   12          **/
-  13          void Uart2_ISR() interrupt 8 
-  14          {   
-  15   1          /* 1, 检测到硬件将S2TI置1，即发送完毕                       */
-  16   1          if( S2CON & S2TI )          //
-  17   1          {
-  18   2              /* 2, 软件将S2TI清零，等待发送标志位重置，可继续发送    */
-  19   2              S2CON &= ~S2TI;         
-  20   2              rs485.TX2_busy_Flag = 0;
-  21   2              
-  22   2              /* 3, 依次将TX2_buf中数据送出（写S2BUF操作即为发送）    */
-  23   2              if( rs485.TX2_send_bytelength != 0 )
-  24   2              {
-  25   3                  S2BUF = rs485.TX2_buf[rs485.TX2_send_cnt++];
-  26   3                  rs485.TX2_send_bytelength--;
-  27   3              }else
-  28   2              {
-  29   3                  rs485.TX2_send_cnt = 0;
-  30   3              }
-  31   2          }
-  32   1          
-  33   1          /* 1, 检测到硬件将S2RI置1，即接收完毕                       */
-  34   1          if( S2CON & S2RI )
-  35   1          {
-  36   2              /* 2, 软件将S2RI清零，等待接收标志位重置，可继续发送    */
-  37   2              S2CON &= ~S2RI;
-  38   2      
-  39   2              /* 3, 判断数据包是否接收完毕                           */
-  40   2              if( !rs485.RX2_rev_end_Flag )
-  41   2              {
-  42   3                  /* 4, 数据包大于RX_buf 则从头计数                  */
-  43   3                  if( rs485.RX2_rev_cnt > 128 )
-  44   3                  {
-  45   4                      rs485.RX2_rev_cnt = 0;
-  46   4                  }
-  47   3      
-  48   3                  /* 5, 依次将RX2_buf中数据接收（读S2BUF操作即为接收）*/
-  49   3                  rs485.RX2_buf[rs485.RX2_rev_cnt] = S2BUF;
-  50   3                  rs485.RX2_rev_cnt++;
+  13          void Uart2_Send_Statu_Init( void )
+  14          {
+  15   1          rs485.TX2_busy_Flag = 0;
+  16   1          rs485.RX2_rev_end_Flag = 0;
+  17   1          rs485.TX2_buf[128] = 0;
+  18   1          rs485.RX2_buf[128] = 0;
+  19   1          rs485.TX2_send_bytelength = 0;
+  20   1          rs485.TX2_send_cnt = 0;
+  21   1          rs485.RX2_rev_timeout = 0;
+  22   1          rs485.RX2_rev_cnt = 0;
+  23   1          DR2 = 0;
+  24   1      }
+  25          
+  26          /**
+  27           * @brief       串口2中断处理函数
+  28           *
+  29           * @param   
+  30           *
+  31           * @return  void
+  32          **/
+  33          void Uart2_ISR() interrupt 8 
+  34          {   
+  35   1          /* 1, 检测到硬件将S2TI置1，即发送完毕                       */
+  36   1          if( S2CON & S2TI )          //
+  37   1          {
+  38   2              /* 2, 软件将S2TI清零，等待发送标志位重置，可继续发送    */
+  39   2              S2CON &= ~S2TI;         
+  40   2              rs485.TX2_busy_Flag = 0;
+  41   2              
+  42   2              /* 3, 依次将TX2_buf中数据送出（写S2BUF操作即为发送）    */
+  43   2              if( rs485.TX2_send_bytelength != 0 )
+  44   2              {
+  45   3                  S2BUF = rs485.TX2_buf[rs485.TX2_send_cnt++];
+  46   3                  rs485.TX2_send_bytelength--;
+  47   3              }else
+  48   2              {
+  49   3                  rs485.TX2_send_cnt = 0;
+  50   3                  DR2 = 0;
   51   3              }
-  52   2              /* 6, 重置接收完毕判断时间                              */
-  53   2              rs485.RX2_rev_timeout = 50;
-C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 16:57:39 PAGE 2   
+  52   2          }
+  53   1          
+C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 23:03:02 PAGE 2   
 
-  54   2          }
-  55   1      }
-  56          
-  57          /**
-  58           * @brief       是否接收完毕判断函数
-  59           *
-  60           * @param   
-  61           *
-  62           * @return  void
-  63          **/
-  64          void Tim0_ISR( void ) interrupt 1   //1ms
-  65          {
-  66   1          /* 1, 如果接收未超时                                             */
-  67   1          if ( rs485.RX2_rev_timeout != 0 )  
-  68   1          {
-  69   2              rs485.RX2_rev_timeout--;
-  70   2              /* 2, 如果接收超时                                          */
-  71   2              if( rs485.RX2_rev_timeout == 0 )  
-  72   2              {
-  73   3                  if( rs485.RX2_rev_cnt > 0 )  
-  74   3                  {   
-  75   4                       /* 3, 接收完毕标志位亮起并初始化接收缓冲区         */
-  76   4                      rs485.RX2_rev_end_Flag = 1;    
-  77   4                  }
-  78   3              }
-  79   2          } 
-  80   1      }
-  81          
-  82          /**
-  83           * @brief       串口2发送1字节数据
-  84           *
-  85           * @param   
-  86           *
-  87           * @return  void
-  88          **/
-  89          void Uart2_Sendbyte( uint8_t dat )
-  90          {
-  91   1          while( rs485.TX2_busy_Flag );
-  92   1          rs485.TX2_busy_Flag = 1;
-  93   1          S2BUF = dat;
-  94   1      
-  95   1      }
-  96          
-  97          /**
-  98           * @brief       串口2发送字符串
-  99           *
- 100           * @param   
- 101           *
- 102           * @return  void
- 103          **/
- 104          void Uart2_SendStr( uint8_t *sendstr )
- 105          {   
- 106   1          while(*sendstr)
- 107   1          {
- 108   2              Uart2_Sendbyte(*sendstr++);
- 109   2          }
- 110   1      }
- 111          
- 112          /**
- 113           * @brief       串口2调用结构体初始化
- 114           *
- 115           * @param   
-C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 16:57:39 PAGE 3   
+  54   1          /* 1, 检测到硬件将S2RI置1，即接收完毕                       */
+  55   1          if( S2CON & S2RI )
+  56   1          {
+  57   2              /* 2, 软件将S2RI清零，等待接收标志位重置，可继续发送    */
+  58   2              S2CON &= ~S2RI;
+  59   2      
+  60   2              /* 3, 判断数据包是否接收完毕                           */
+  61   2              if( !rs485.RX2_rev_end_Flag )
+  62   2              {
+  63   3                  /* 4, 数据包大于RX_buf 则从头计数                  */
+  64   3                  if( rs485.RX2_rev_cnt > 128 )
+  65   3                  {
+  66   4                      rs485.RX2_rev_cnt = 0;
+  67   4                  }
+  68   3      
+  69   3                  /* 5, 依次将RX2_buf中数据接收（读S2BUF操作即为接收）*/
+  70   3                  rs485.RX2_buf[rs485.RX2_rev_cnt] = S2BUF;
+  71   3                  rs485.RX2_rev_cnt++;
+  72   3              }
+  73   2              /* 6, 重置接收完毕判断时间                              */
+  74   2              rs485.RX2_rev_timeout = 50;
+  75   2          }
+  76   1      }
+  77          
+  78          /**
+  79           * @brief       是否接收完毕判断函数
+  80           *
+  81           * @param   
+  82           *
+  83           * @return  void
+  84          **/
+  85          void Tim0_ISR( void ) interrupt 1   //1ms
+  86          {
+  87   1          /* 1, 如果接收未超时                                             */
+  88   1          if ( rs485.RX2_rev_timeout != 0 )  
+  89   1          {
+  90   2              rs485.RX2_rev_timeout--;
+  91   2              /* 2, 如果接收超时                                          */
+  92   2              if( rs485.RX2_rev_timeout == 0 )  
+  93   2              {
+  94   3                  if( rs485.RX2_rev_cnt > 0 )  
+  95   3                  {   
+  96   4                       /* 3, 接收完毕标志位亮起并初始化接收缓冲区         */
+  97   4                      rs485.RX2_rev_end_Flag = 1;    
+  98   4                  }
+  99   3              }
+ 100   2          } 
+ 101   1      }
+ 102          
+ 103          // /**
+ 104          //  * @brief    串口2发送1字节数据
+ 105          //  *
+ 106          //  * @param   
+ 107          //  *
+ 108          //  * @return  void
+ 109          // **/
+ 110          // void Uart2_Sendbyte( uint8_t dat )
+ 111          // {
+ 112          //     while( rs485.TX2_busy_Flag );
+ 113          //     rs485.TX2_busy_Flag = 1;
+ 114          //     S2BUF = dat;
+ 115          
+C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 23:03:02 PAGE 3   
 
- 116           *
- 117           * @return  void
- 118          **/
- 119          void Uart2_Send_Statu_Init( void )
- 120          {
- 121   1          rs485.TX2_busy_Flag = 0;
- 122   1          rs485.RX2_rev_end_Flag = 0;
- 123   1          rs485.TX2_buf[128] = 0;
- 124   1          rs485.RX2_buf[128] = 0;
- 125   1          rs485.TX2_send_bytelength = 0;
- 126   1          rs485.TX2_send_cnt = 0;
- 127   1          rs485.RX2_rev_timeout = 0;
- 128   1          rs485.RX2_rev_cnt = 0;
- 129   1      }
- 130          
- 131          /**
- 132           * @brief       串口4中断处理函数
- 133           *
- 134           * @param   
+ 116          // }
+ 117          
+ 118          // /**
+ 119          //  * @brief    串口2发送字符串
+ 120          //  *
+ 121          //  * @param   
+ 122          //  *
+ 123          //  * @return  void
+ 124          // **/
+ 125          // void Uart2_SendStr( uint8_t *sendstr )
+ 126          // {   
+ 127          //     while(*sendstr)
+ 128          //     {
+ 129          //         Uart2_Sendbyte(*sendstr++);
+ 130          //     }
+ 131          // }
+ 132          
+ 133          /**
+ 134           * @brief       串口4中断处理函数
  135           *
- 136           * @return  void
- 137          **/
- 138          void Uart4_ISR() interrupt 18
- 139          {
- 140   1          if (S4CON & S4TI)                //在停止位开始发送时，该位置1
- 141   1          {
- 142   2              S4CON &= ~S4TI;                              //清除S4CON寄存器对应S4TI位（该位必须软件清零）
- 143   2              TX4_busy_Flag = 0;
- 144   2          }
- 145   1      
- 146   1          if (S4CON & S4RI)                //串行接收到停止位的中间时刻时，该位置1
- 147   1          {
- 148   2              S4CON &= ~S4RI;              //清除S4CON寄存器对应S4RI位（该位必须软件清零）
- 149   2                     
- 150   2          }
- 151   1      }
- 152          
- 153          /**
- 154           * @brief       串口4发送1字节数据
- 155           *
- 156           * @param   
- 157           *
- 158           * @return  void
- 159          **/
- 160          void Uart4_Sendbyte( uint8_t dat )
- 161          {
- 162   1          while( TX4_busy_Flag );
- 163   1          TX4_busy_Flag = 1;
- 164   1          S4BUF = dat;
- 165   1      
- 166   1      }
+ 136           * @param   
+ 137           *
+ 138           * @return  void
+ 139          **/
+ 140          void Uart4_ISR() interrupt 18
+ 141          {
+ 142   1          if (S4CON & S4TI)                //在停止位开始发送时，该位置1
+ 143   1          {
+ 144   2              S4CON &= ~S4TI;                              //清除S4CON寄存器对应S4TI位（该位必须软件清零）
+ 145   2              TX4_busy_Flag = 0;
+ 146   2          }
+ 147   1      
+ 148   1          if (S4CON & S4RI)                //串行接收到停止位的中间时刻时，该位置1
+ 149   1          {
+ 150   2              S4CON &= ~S4RI;              //清除S4CON寄存器对应S4RI位（该位必须软件清零）
+ 151   2                     
+ 152   2          }
+ 153   1      }
+ 154          
+ 155          // /**
+ 156          //  * @brief    串口4发送1字节数据
+ 157          //  *
+ 158          //  * @param   
+ 159          //  *
+ 160          //  * @return  void
+ 161          // **/
+ 162          // void Uart4_Sendbyte( uint8_t dat )
+ 163          // {
+ 164          //     while( TX4_busy_Flag );
+ 165          //     TX4_busy_Flag = 1;
+ 166          //     S4BUF = dat;
  167          
- 168          /**
- 169           * @brief       串口4发送字符串
- 170           *
- 171           * @param   
- 172           *
- 173           * @return  void
- 174          **/
- 175          void Uart4_SendStr( uint8_t *sendstr )
- 176          {   
- 177   1          while(*sendstr)
-C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 16:57:39 PAGE 4   
+ 168          // }
+ 169          
+ 170          // /**
+ 171          //  * @brief    串口4发送字符串
+ 172          //  *
+ 173          //  * @param   
+ 174          //  *
+ 175          //  * @return  void
+ 176          // **/
+ 177          // void Uart4_SendStr( uint8_t *sendstr )
+C51 COMPILER V9.60.7.0   COMMUNICATION                                                     02/05/2025 23:03:02 PAGE 4   
 
- 178   1          {
- 179   2              Uart4_Sendbyte(*sendstr++);
- 180   2          }
- 181   1      }
- 182          
- 183          /**
- 184           * @brief       串口重定向
- 185           *
- 186           * @param   c:字符串
+ 178          // {   
+ 179          //     while(*sendstr)
+ 180          //     {
+ 181          //         Uart4_Sendbyte(*sendstr++);
+ 182          //     }
+ 183          // }
+ 184          
+ 185          /**
+ 186           * @brief       串口重定向
  187           *
- 188           * @return  c
- 189          **/
- 190          char putchar(char c)  // 串口重定向需要添加头文件stdio.h
- 191          {
- 192   1          S4BUF = c;
- 193   1          while(TX4_busy_Flag);
- 194   1          TX4_busy_Flag = 1;
- 195   1          return c;
- 196   1      }
- 197          
- 198          
+ 188           * @param   c:字符串
+ 189           *
+ 190           * @return  c
+ 191          **/
+ 192          char putchar(char c)  // 串口重定向需要添加头文件stdio.h
+ 193          {
+ 194   1          S4BUF = c;
+ 195   1          while(TX4_busy_Flag);
+ 196   1          TX4_busy_Flag = 1;
+ 197   1          return c;
+ 198   1      }
+ 199          
+ 200          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    387    ----
+   CODE SIZE        =    267    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    265       6
+   XDATA SIZE       =    265    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

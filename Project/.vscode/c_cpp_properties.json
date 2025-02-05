@@ -1,0 +1,87 @@
+{
+    "configurations": [
+        {
+            "name": "Target 1",
+            "includePath": [
+                "e:\\workspace\\KP_350_POWER\\BSP\\Inc",
+                "e:\\workspace\\KP_350_POWER\\Core\\Inc",
+                "e:\\workspace\\KP_350_POWER\\Driver",
+                "e:\\workspace\\KP_350_POWER\\Emembed\\Inc",
+                "e:\\workspace\\KP_350_POWER\\SYSTEM\\Inc",
+                "D:\\APP\\Keil_STM32\\C51\\INC",
+                "e:\\workspace\\KP_350_POWER\\Project",
+                "e:\\workspace\\KP_350_POWER\\SYSTEM\\Src",
+                "e:\\workspace\\KP_350_POWER\\Core\\Src",
+                "e:\\workspace\\KP_350_POWER\\BSP\\Src",
+                "e:\\workspace\\KP_350_POWER\\Emembed\\Src"
+            ],
+            "defines": [
+                "__C51__",
+                "__VSCODE_C51__",
+                "reentrant=",
+                "compact=",
+                "small=",
+                "large=",
+                "data=",
+                "idata=",
+                "pdata=",
+                "bdata=",
+                "xdata=",
+                "code=",
+                "bit=char",
+                "sbit=char",
+                "sfr=char",
+                "sfr16=int",
+                "sfr32=int",
+                "interrupt=",
+                "using=",
+                "_at_=",
+                "_priority_=",
+                "_task_="
+            ],
+            "intelliSenseMode": "${default}"
+        },
+        {
+            "name": "MultiFunPower",
+            "includePath": [
+                "e:\\workspace\\KP_350_POWER\\BSP\\Inc",
+                "e:\\workspace\\KP_350_POWER\\Core\\Inc",
+                "e:\\workspace\\KP_350_POWER\\Driver",
+                "e:\\workspace\\KP_350_POWER\\Emembed\\Inc",
+                "e:\\workspace\\KP_350_POWER\\SYSTEM\\Inc",
+                "D:\\APP\\Keil_STM32\\C51\\INC",
+                "e:\\workspace\\KP_350_POWER\\Project",
+                "e:\\workspace\\KP_350_POWER\\SYSTEM\\Src",
+                "e:\\workspace\\KP_350_POWER\\Core\\Src",
+                "e:\\workspace\\KP_350_POWER\\BSP\\Src",
+                "e:\\workspace\\KP_350_POWER\\Emembed\\Src"
+            ],
+            "defines": [
+                "__C51__",
+                "__VSCODE_C51__",
+                "reentrant=",
+                "compact=",
+                "small=",
+                "large=",
+                "data=",
+                "idata=",
+                "pdata=",
+                "bdata=",
+                "xdata=",
+                "code=",
+                "bit=char",
+                "sbit=char",
+                "sfr=char",
+                "sfr16=int",
+                "sfr32=int",
+                "interrupt=",
+                "using=",
+                "_at_=",
+                "_priority_=",
+                "_task_="
+            ],
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}

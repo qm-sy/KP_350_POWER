@@ -94,11 +94,11 @@ void temp_scan( void )
 {
     if( temp.temp_scan_flag == 1)
     {
-        temp.temp1_value =  get_temp(NTC_1);
-        temp.temp2_value =  get_temp(NTC_2);
-        temp.temp3_value =  get_temp(NTC_3);
+        temp.temp_value1 =  get_temp(NTC_1);
+        temp.temp_value2 =  get_temp(NTC_2);
+        temp.temp_value3 =  get_temp(NTC_3);
 
-        if( temp.temp1_value >= temp.power_ch1_temp_alarm )
+        if( temp.temp_value1 >= temp.temp_alarm_value1 )
         {
             ac_220.ac220_on_off &= ~0x01;        //001
         }else
@@ -106,7 +106,7 @@ void temp_scan( void )
             ac_220.ac220_on_off |= 0x01;
         }
 
-        if( temp.temp2_value >= temp.power_ch2_temp_alarm )
+        if( temp.temp_value2 >= temp.temp_alarm_value2 )
         {
             ac_220.ac220_on_off &= ~0x02;        //101
         }else
@@ -114,7 +114,7 @@ void temp_scan( void )
             ac_220.ac220_on_off |= 0x02;
         }
 
-        if( temp.temp3_value >= temp.power_ch3_temp_alarm )
+        if( temp.temp_value3 >= temp.temp_alarm_value3 )
         {
             ac_220.ac220_on_off &= ~0x04;        //011
         }else

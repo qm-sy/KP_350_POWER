@@ -5,8 +5,10 @@ void main( void )
     P_SW2 |= 0x80;
     
     GPIO_Init();
-    eeprom_statu_judge();
+
+    /*  调试使用 printf  */
     Uart4_Init();
+    
     /*  温度控制  */
     ADC_Init();
 
@@ -25,12 +27,13 @@ void main( void )
     PWM_Init();
 
     EA = 1;
-   
-    eeprom_test();
 
-    printf( "========== code start ==========" );
+    eeprom_statu_judge();
+
+    printf("========== code start ========== \r\n");
     while (1)
     {
         Modbus_Event();
+        temp_scan();
     }  
 }

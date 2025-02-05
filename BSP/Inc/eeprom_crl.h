@@ -5,6 +5,7 @@
 #include "sys.h"
 #include "power_crl.h"
 #include "ntc.h"
+#include "stdio.h"
 
 #define PWM_ADDR_EEPROM       0x0000
 #define LED_ADDR_EEPROM       0x0001

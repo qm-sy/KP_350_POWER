@@ -1,11 +1,12 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    02/05/2025  22:54:47  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    02/05/2025  23:03:02  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
 D:\APP\KEIL_STM32\C51\BIN\BL51.EXE ..\Output\STARTUP.obj, ..\Output\delay.obj, ..\Output\adc.obj, ..\Output\gpio.obj, ..
 >> \Output\main.obj, ..\Output\pwm.obj, ..\Output\tim.obj, ..\Output\uart.obj, ..\Output\eeprom.obj, ..\Output\ntc.obj, 
 >> ..\Output\power_crl.obj, ..\Output\cc6903.obj, ..\Output\communication.obj, ..\Output\eeprom_crl.obj, ..\Output\modbu
->> s_rtu.obj, ..\Output\common.obj TO ..\Output\Power_board_350 PRINT (.\Listings\Power_board_350.m51) RAMSIZE (256)
+>> s_rtu.obj, ..\Output\common.obj TO ..\Output\KP_MultiFunPower_V001 PRINT (.\Listings\KP_MultiFunPower_V001.m51) RAMSI
+>> ZE (256)
 
 
 MEMORY MODEL: LARGE
@@ -43,7 +44,7 @@ INPUT MODULES INCLUDED:
   D:\APP\KEIL_STM32\C51\LIB\C51L.LIB (?C?CCASE)
 
 
-LINK MAP OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
+LINK MAP OF MODULE:  ..\Output\KP_MultiFunPower_V001 (?C_STARTUP)
 
 
             TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
@@ -58,10 +59,10 @@ LINK MAP OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
             IDATA   0022H     0001H     UNIT         ?STACK
 
             * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 2
+
+
             XDATA   0000H     0109H     UNIT         ?XD?COMMUNICATION
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 2
-
-
             XDATA   0109H     00F9H     UNIT         ?XD?NTC
             XDATA   0202H     002CH     UNIT         _XDATA_GROUP_
             XDATA   022EH     0006H     UNIT         ?XD?EEPROM_CRL
@@ -118,10 +119,10 @@ LINK MAP OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
             CODE    1337H     0020H     UNIT         ?PR?_ISP_READ?EEPROM
             CODE    1357H     001FH     UNIT         ?CO?CC6903
             CODE    1376H     001EH     UNIT         ?PR?_ISP_EARSE?EEPROM
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 3
+
+
             CODE    1394H     001BH     UNIT         ?PR?UART2_SEND_STATU_INIT?COMMUNICATION
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 3
-
-
             CODE    13AFH     001AH     UNIT         ?PR?ADC_INIT?ADC
             CODE    13C9H     0019H     UNIT         ?PR?UART4_INIT?UART
             CODE    13E2H     0014H     UNIT         ?PR?_AC_220V_OUT?POWER_CRL
@@ -134,7 +135,7 @@ LINK MAP OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
 
 
 
-OVERLAY MAP OF MODULE:   ..\Output\Power_board_350 (?C_STARTUP)
+OVERLAY MAP OF MODULE:   ..\Output\KP_MultiFunPower_V001 (?C_STARTUP)
 
 
 SEGMENT                                            BIT_GROUP          DATA_GROUP          XDATA_GROUP
@@ -178,10 +179,10 @@ SEGMENT                                            BIT_GROUP          DATA_GROUP
   +--> ?PR?_DELAY_MS?DELAY
   +--> ?PR?ISP_IDLE?EEPROM
 
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 4
+
+
 ?PR?PRINTF?PRINTF                               0020H.0  0001H.1    0008H    0005H      0206H    0028H
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 4
-
-
   +--> ?PR?_PUTCHAR?COMMUNICATION
 
 ?PR?EEPROM_DATA_RECORD?EEPROM_CRL               -----    -----      -----    -----      -----    -----
@@ -238,10 +239,10 @@ SEGMENT                                            BIT_GROUP          DATA_GROUP
   +--> ?PR?EEPROM_DATA_RECORD?EEPROM_CRL
 
 ?PR?MODBUS_FUN16?MODBUS_RTU                     -----    -----      -----    -----      -----    -----
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 5
+
+
   +--> ?PR?_MODBUS_CRC16?MODBUS_RTU
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 5
-
-
   +--> ?PR?EEPROM_DATA_RECORD?EEPROM_CRL
 
 ?PR?TEMP_SCAN?NTC                               -----    -----      -----    -----      -----    -----
@@ -249,7 +250,7 @@ SEGMENT                                            BIT_GROUP          DATA_GROUP
 
 
 
-SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
+SYMBOL TABLE OF MODULE:  ..\Output\KP_MultiFunPower_V001 (?C_STARTUP)
 
   VALUE           TYPE          NAME
   ----------------------------------
@@ -298,10 +299,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   D:00C8H         PUBLIC        P5
   D:00E8H         PUBLIC        P6
   D:00F8H         PUBLIC        P7
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 6
+
+
   D:00A8H         PUBLIC        IE
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 6
-
-
   D:00B8H         PUBLIC        IP
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
@@ -358,10 +359,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:13B2H         LINE#         17
   C:13B9H         LINE#         19
   C:13BCH         LINE#         20
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 7
+
+
   C:13BFH         LINE#         22
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 7
-
-
   C:13C2H         LINE#         24
   C:13C5H         LINE#         26
   C:13C8H         LINE#         27
@@ -418,10 +419,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:1317H         LINE#         21
   C:1317H         LINE#         22
   C:131DH         LINE#         23
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 8
+
+
   C:1323H         LINE#         24
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 8
-
-
   C:1329H         LINE#         25
   C:132DH         LINE#         26
   C:1331H         LINE#         27
@@ -478,10 +479,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 9
+
+
   D:00B0H         PUBLIC        P3
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 9
-
-
   D:00C0H         PUBLIC        P4
   D:00C8H         PUBLIC        P5
   D:00E8H         PUBLIC        P6
@@ -538,10 +539,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   B:0088H.0       PUBLIC        IT0
   D:00D4H         PUBLIC        T3H
   D:008AH         PUBLIC        TL0
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 10
+
+
   D:00D5H         PUBLIC        T3L
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 10
-
-
   B:0088H.4       PUBLIC        TR0
   D:00D1H         PUBLIC        T4T3M
   D:00D0H         PUBLIC        PSW
@@ -598,10 +599,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   D:0098H         PUBLIC        SCON
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 11
+
+
   D:0088H         PUBLIC        TCON
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 11
-
-
   D:00AFH         PUBLIC        IE2
   D:008EH         PUBLIC        AUXR
   C:1409H         PUBLIC        Uart2_Init
@@ -658,10 +659,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   D:00C4H         PUBLIC        IAP_ADDRL
   D:00F5H         PUBLIC        IAP_TPS
   D:0098H         PUBLIC        SCON
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 12
+
+
   D:0088H         PUBLIC        TCON
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 12
-
-
   C:1376H         PUBLIC        _ISP_Earse
   D:00C7H         PUBLIC        IAP_CONTR
   C:1337H         PUBLIC        _ISP_Read
@@ -718,10 +719,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:1337H         LINE#         96
   C:1337H         LINE#         97
   C:1337H         LINE#         100
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 13
+
+
   C:133AH         LINE#         102
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 13
-
-
   C:133DH         LINE#         104
   C:1340H         LINE#         106
   C:1342H         LINE#         107
@@ -778,10 +779,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   X:0204H         SYMBOL        adc_val
   D:0006H         SYMBOL        temp
   -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 14
+
+
   C:1035H         LINE#         66
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 14
-
-
   C:103AH         LINE#         67
   C:103AH         LINE#         73
   C:103DH         LINE#         74
@@ -838,10 +839,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:13E2H         PUBLIC        _AC_220V_out
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 15
+
+
   B:00A0H.1       PUBLIC        DC_24V
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 15
-
-
   C:1268H         PUBLIC        Tim1_ISR
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
@@ -898,10 +899,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:1441H         LINE#         85
   C:1441H         LINE#         86
   C:1441H         LINE#         87
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 16
+
+
   C:1445H         LINE#         88
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 16
-
-
   C:1445H         LINE#         89
   C:1447H         LINE#         90
   C:1448H         LINE#         91
@@ -958,10 +959,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:0B3FH         LINE#         36
   C:0B5AH         LINE#         38
   C:0B63H         LINE#         39
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 17
+
+
   C:0B63H         LINE#         40
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 17
-
-
   C:0B67H         LINE#         41
   C:0B67H         LINE#         43
   C:0B6BH         LINE#         44
@@ -1018,10 +1019,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:0E7EH         LINE#         43
   C:0E84H         LINE#         44
   C:0E84H         LINE#         45
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 18
+
+
   C:0E96H         LINE#         46
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 18
-
-
   C:0E9CH         LINE#         47
   C:0E9EH         LINE#         48
   C:0E9EH         LINE#         49
@@ -1078,10 +1079,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:142CH         LINE#         193
   C:142CH         LINE#         194
   C:142EH         LINE#         195
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 19
+
+
   C:1434H         LINE#         196
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 19
-
-
   C:1436H         LINE#         197
   C:1436H         LINE#         198
   -------         ENDPROC       _PUTCHAR
@@ -1138,10 +1139,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:10C3H         LINE#         47
   C:10CFH         LINE#         48
   C:10DBH         LINE#         50
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 20
+
+
   -------         ENDPROC       EEPROM_DATA_RECORD
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 20
-
-
   -------         PROC          EEPROM_DATA_INIT
   C:09E5H         LINE#         60
   C:09E5H         LINE#         61
@@ -1198,10 +1199,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   D:00C0H         PUBLIC        P4
   D:00C8H         PUBLIC        P5
   D:00E8H         PUBLIC        P6
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 21
+
+
   D:00F8H         PUBLIC        P7
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 21
-
-
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   C:0799H         PUBLIC        Modbus_Fun3
@@ -1258,10 +1259,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   -------         PROC          MODBUS_FUN3
   -------         DO            
   X:0202H         SYMBOL        info_byte
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 22
+
+
   -------         ENDDO         
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 22
-
-
   C:0799H         LINE#         65
   C:0799H         LINE#         66
   C:0799H         LINE#         67
@@ -1318,10 +1319,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:08C3H         LINE#         138
   C:08CBH         LINE#         139
   C:08CEH         LINE#         140
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 23
+
+
   C:08D6H         LINE#         142
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 23
-
-
   C:08DBH         LINE#         144
   C:08DBH         LINE#         146
   C:08DBH         LINE#         147
@@ -1378,10 +1379,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:063EH         LINE#         225
   C:0646H         LINE#         226
   C:064EH         LINE#         227
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 24
+
+
   C:0656H         LINE#         228
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 24
-
-
   C:065EH         LINE#         229
   C:0666H         LINE#         231
   C:0671H         LINE#         232
@@ -1438,10 +1439,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:0765H         LINE#         297
   C:076DH         LINE#         299
   C:0775H         LINE#         300
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 25
+
+
   C:0775H         LINE#         301
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 25
-
-
   C:0777H         LINE#         302
   C:0779H         LINE#         303
   C:0779H         LINE#         304
@@ -1498,10 +1499,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   -------         DO            
   D:0005H         SYMBOL        i
   X:0204H         SYMBOL        crc16
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 26
+
+
   -------         ENDDO         
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 26
-
-
   C:0FD1H         LINE#         375
   C:0FD6H         LINE#         376
   C:0FD6H         LINE#         381
@@ -1558,10 +1559,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   B:00C0H.2       PUBLIC        AC_Out2
   B:00C0H.3       PUBLIC        AC_Out3
   D:00D0H         PUBLIC        PSW
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 27
+
+
   -------         PROC          TIM3_ISR
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 27
-
-
   -------         DO            
   X:0234H         SYMBOL        trun_flag
   X:0235H         SYMBOL        temp_scan_cnt1
@@ -1618,10 +1619,10 @@ SYMBOL TABLE OF MODULE:  ..\Output\Power_board_350 (?C_STARTUP)
   C:04A9H         PUBLIC        ?C?LSHL
   -------         ENDMOD        ?C?LSHL
 
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  23:03:02  PAGE 28
+
+
   -------         MODULE        PRINTF
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/05/2025  22:54:47  PAGE 28
-
-
   X:0206H         PUBLIC        ?_PRINTF517?BYTE
   X:0206H         PUBLIC        ?_PRINTF?BYTE
   X:0206H         PUBLIC        ?_SPRINTF517?BYTE

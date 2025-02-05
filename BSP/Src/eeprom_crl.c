@@ -14,6 +14,7 @@ void eeprom_statu_judge( void )
     uint8_t eeprom_statu_flag;
 
     eeprom_statu_flag = ISP_Read(EEPROM_STATU_JUDGE);
+    printf("The value of eeprom_statu_flag is 0x%02x \r\n",(int)eeprom_statu_flag);
     if( eeprom_statu_flag == 0xFF)
     {
         eeprom.pwm_info          = 0x6f;          //011 011 11 pwm7、8默认开，3档风速
@@ -24,12 +25,8 @@ void eeprom_statu_judge( void )
         eeprom.temp_alarm_value3 = 0x50;          //NTC3 alarm value 默认80℃ 
 
         eeprom_data_record(); 
-
-        ISP_Write(0x0010,0x58);     //特定位置设定标志位区分是否首次上电
-    }else
-    {
-        eeprom_data_init();    
     }
+    eeprom_data_init();    
 }
 
 /**
@@ -49,6 +46,8 @@ void eeprom_data_record( void )
     ISP_Write(TEMP_ALARM1,eeprom.temp_alarm_value1);
     ISP_Write(TEMP_ALARM2,eeprom.temp_alarm_value2);
     ISP_Write(TEMP_ALARM3,eeprom.temp_alarm_value3);
+
+    ISP_Write(EEPROM_STATU_JUDGE,0x58);
 }
 
 /**

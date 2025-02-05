@@ -60,5 +60,5 @@ void Timer3_Init( void )		//10us@11.0592MHz    16位自动重装载
 	T3H    = 0xFF;					//设置定时初始值
 	T4T3M |= 0x08;				//定时器3开始计时
 
-	//IE2  |=  0x20;				//打开IE2-ET3，TIM3中断
+	IE2  |=  0x20;				//打开IE2-ET3，TIM3中断
 }

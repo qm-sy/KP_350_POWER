@@ -3,6 +3,7 @@
 
 #include "uart.h"
 #include "stdio.h"
+#include "gpio.h"
 
 typedef struct 
 {
