@@ -48,6 +48,13 @@ void eeprom_data_record( void )
     ISP_Write(TEMP_ALARM3,eeprom.temp_alarm_value3);
 
     ISP_Write(EEPROM_STATU_JUDGE,0x58);
+
+    // printf("The value of 0 is : 0x%02x \r\n",(int)eeprom.pwm_info);
+    // printf("The value of 1 is : 0x%02x \r\n",(int)eeprom.led_info);
+    // printf("The value of 2 is : 0x%02x \r\n",(int)eeprom.ac220_info);
+    // printf("The value of 3 is : 0x%02x \r\n",(int)eeprom.temp_alarm_value1);
+    // printf("The value of 4 is : 0x%02x \r\n",(int)eeprom.temp_alarm_value2);
+    // printf("The value of 5 is : 0x%02x \r\n",(int)eeprom.temp_alarm_value3);
 }
 
 /**

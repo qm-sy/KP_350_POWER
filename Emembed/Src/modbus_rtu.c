@@ -1,5 +1,7 @@
 #include "modbus_rtu.h"
 
+MODBIS_INFO modbus;
+
 /**
  * @brief	modbus_rtu  无奇偶校验
  *
@@ -64,89 +66,77 @@ void Modbus_Event( void )
 **/
 void Modbus_Fun3( void )
 {
-    uint8_t info_byte = 0;
+    uint16_t i;
 
-    switch (rs485.RX2_buf[3])
+    modbus.send_value_addr  = 3;                 //DATA1 H 位置
+    modbus.byte_cnt   = (rs485.RX2_buf[4]<<8 | rs485.RX2_buf[5]) *2;
+    modbus.start_addr = rs485.RX2_buf[2]<<8 | rs485.RX2_buf[3];
+
+    rs485.TX2_buf[0]  = MY_ADDR;                //Addr
+    rs485.TX2_buf[1]  = 0x03;                   //Fun
+    rs485.TX2_buf[2]  = modbus.byte_cnt;        //Byte Count
+
+    for( i = modbus.start_addr; i < modbus.start_addr + modbus.byte_cnt/2; i++ )
     {
-        /* 40001   两路PWM 开关状态及风速查询                 */
-        case 0:
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 2;                       //Byte Count
+        /*    每次循环前初始化byte_info                       */
+        modbus.byte_info_H = modbus.byte_info_L = 0X00;
+        switch (i)
+        {
+            /*  40001  两路PWM 开关状态及风速查询                 */
+            case 0:
+                modbus.byte_info_H  = 0X00;
+                modbus.byte_info_L |= (PWMB_CCR7 / 184)<<2;                  //PWM7风速
+                modbus.byte_info_L |= (PWMB_CCR8 / 184)<<5;                  //PWM8风速
+                if( PWMB_CCER2 & 0X01 )
+                {
+                    modbus.byte_info_L |= 0x01;                              //PWM7开关状态
+                }
+                if( PWMB_CCER2 & 0X10 )
+                {
+                    modbus.byte_info_L |= 0x02;                              //PWM8开关状态
+                }
+                break;
 
-            info_byte |= (PWMB_CCR7 / 184)<<2;          //PWM7风速
-            info_byte |= (PWMB_CCR8 / 184)<<5;          //PWM8风速
-            if( PWMB_CCER2 & 0X01 )
-            {
-                info_byte |= 0x01;                      //PWM7开关状态
-            }
-            if( PWMB_CCER2 & 0X10 )
-            {
-                info_byte |= 0x02;                      //PWM8开关状态
-            }
+            /*  40002  LED开关状态查询                          */
+            case 1:
+                modbus.byte_info_H = 0X00;
+                if( EX0 & 1 )
+                {
+                    modbus.byte_info_L |= 0x01;                              //LED开关状态
+                }
+                break;
 
-            rs485.TX2_buf[3] = 0x00;                    //Data1 H
-            rs485.TX2_buf[4] = info_byte;               //Data1 L
+            /*  40003  220V CH4开关状态及功率查询               */
+            case 2:
+                modbus.byte_info_H = 0X00;
+                modbus.byte_info_L = ((ac_220.time_delay - 58000) / 75)<<1;  //220V 功率
+                if( EX0 & 1 )
+                {
+                    modbus.byte_info_L |= 0x01;                             //220V运行状态
+                }
+                break;
 
-            slave_to_master(5);
+            /*  40004 NTC1 NTC2 alarm value查询                       */
+            case 3:
+                modbus.byte_info_H = temp.temp_alarm_value2;           
+                modbus.byte_info_L = temp.temp_alarm_value1;           
+                break;
 
-            break;
+            /*  40005 NTC3 alarm value查询                            */
+            case 4:
+                modbus.byte_info_H = 0X00;   
+                modbus.byte_info_L = temp.temp_alarm_value3;          
+                break;
 
-        /* 40002   24V LED开关状态查询                       */
-        case 1:
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 2;                       //Byte Count
-
-            if( EX0 & 1 )
-            {
-                info_byte |= 0x01;                      //LED开关状态
-            }
-            rs485.TX2_buf[3] = 0x00;                    //Data1 H
-            rs485.TX2_buf[4] = info_byte;               //Data1 L
-
-            slave_to_master(5);
-
-            break;
-
-        /* 40003   220V 输出状态查询                            */
-        case 2 :
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 2;                       //Byte Count
-
-            info_byte = ((ac_220.time_delay - 58000) / 75)<<1;
-            if( EX0 & 1 )
-            {
-                info_byte |= 0x01;                      //220运行状态
-            }
-
-            rs485.TX2_buf[3] = 0x00;                    //Data1 H
-            rs485.TX2_buf[4] = info_byte;              //Data1 L
-
-            slave_to_master(5);
-
-            break;
-
-        /* 40004 && 40005   温度报警值                      */
-        case 3 :
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 4;                       //Byte Count
-
-            rs485.TX2_buf[3] = temp.temp_alarm_value2;   //Data1 H
-            rs485.TX2_buf[4] = temp.temp_alarm_value1;   //Data1 L
-            rs485.TX2_buf[5] = 0x00;                        //Data2 H
-            rs485.TX2_buf[6] = temp.temp_alarm_value3;   //Data2 L
-
-            slave_to_master(7);
-
-            break;
-
-        default:
-            break; 
+            default:
+                break;
+        }
+        rs485.TX2_buf[modbus.send_value_addr++] = modbus.byte_info_H;
+        rs485.TX2_buf[modbus.send_value_addr++] = modbus.byte_info_L;
     }
+    slave_to_master(3 + modbus.byte_cnt);
 }
+
 
 /**
  * @brief	读输入寄存器  04
@@ -157,53 +147,59 @@ void Modbus_Fun3( void )
 **/
 void Modbus_Fun4( void )
 {
-    switch (rs485.RX2_buf[3])
+    uint16_t i;
+
+    modbus.send_value_addr  = 3;                //DATA1 H 位置
+    modbus.byte_cnt   = (rs485.RX2_buf[4]<<8 | rs485.RX2_buf[5]) *2;
+    modbus.start_addr = rs485.RX2_buf[2]<<8 | rs485.RX2_buf[3];
+
+    rs485.TX2_buf[0]  = MY_ADDR;                //Addr
+    rs485.TX2_buf[1]  = 0x04;                   //Fun
+    rs485.TX2_buf[2]  = modbus.byte_cnt;        //Byte Count
+
+    for( i = modbus.start_addr; i < modbus.start_addr + modbus.byte_cnt/2; i++ )
     {
-        /*    30001 && 30002 4路NTC                       */
-        case 0:                                         
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 4;                       //Byte Count
-            rs485.RX2_buf[3] = get_temp(NTC_2);
-            rs485.RX2_buf[4] = get_temp(NTC_1);
-            rs485.RX2_buf[5] = get_temp(NTC_4);
-            rs485.RX2_buf[6] = get_temp(NTC_3);
+        /*    每次循环前初始化byte_info                       */
+        modbus.byte_info_H = modbus.byte_info_L = 0X00;
+        switch (i)
+        {   
+            /*  30001 NTC1 NTC2温度查询                     */
+            case 0:
+                modbus.byte_info_H = get_temp(NTC_2);   
+                modbus.byte_info_L = get_temp(NTC_1);           
+                break;
 
-            slave_to_master(7);
+            /*  30002 NTC3 NTC4温度查询                     */    
+            case 1:
+                modbus.byte_info_H = get_temp(NTC_4);
+                modbus.byte_info_L = get_temp(NTC_3);
+                break;
 
-            break;
+            /*    30003 3路电流查询                         */
+            case 2:    
+                modbus.byte_info_H = 0xaa;
+                modbus.byte_info_L = 0xbb;
+                break;
 
-        /*    30003 2路模拟量                               */
-        case 2:    
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 2;                       //Byte Count
+            /*    30004 I_OUT1 I_OUT2 电流查询              */
+            case 3:    
+                modbus.byte_info_H = get_current(I_OUT2);     
+                modbus.byte_info_L = get_current(I_OUT1);     
+                break;
 
-            rs485.TX2_buf[3] = 0xaa;                    //Data1 H
-            rs485.TX2_buf[4] = 0xbb;                    //Data1 L
+            /*    30005 I_OUT3 电流查询                     */
+            case 4:    
+                modbus.byte_info_H = 0X00;                    
+                modbus.byte_info_L = get_current(I_OUT3);     
+                break;
 
-            slave_to_master(5);
-
-            break;
-
-        /*    30003 3路电流查询                             */
-        case 3:    
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = 4;                       //Byte Count
-
-            rs485.TX2_buf[3] = get_current(I_OUT2);     //Data1 H
-            rs485.TX2_buf[4] = get_current(I_OUT1);     //Data1 L
-            rs485.TX2_buf[5] = 0x00;                    //Data2 H
-            rs485.TX2_buf[6] = get_current(I_OUT3);     //Data2 L
-
-            slave_to_master(5);
-
-            break;
-
-        default:
-            break;
+            default:
+                break;
+        }
+        rs485.TX2_buf[modbus.send_value_addr++] = modbus.byte_info_H;
+        rs485.TX2_buf[modbus.send_value_addr++] = modbus.byte_info_L;
     }
+    slave_to_master(3 + modbus.byte_cnt);
 }
 
 /**
@@ -218,15 +214,8 @@ void Modbus_Fun6( void )
     switch (rs485.RX2_buf[3])
     {
         /*  40001  两路PWM 开关状态及风速设置                 */
-        case 0:                                         
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = rs485.RX2_buf[2];        //reg H
-            rs485.TX2_buf[3] = rs485.RX2_buf[3];        //reg L
-            rs485.TX2_buf[4] = rs485.RX2_buf[4];        //Value H
-            rs485.TX2_buf[5] = rs485.RX2_buf[5];        //Value L
-            rs485.TX2_buf[6] = rs485.RX2_buf[6];        //CRC H
-            rs485.TX2_buf[7] = rs485.RX2_buf[7];        //CRC L
+        case 0:             
+            memcpy(rs485.TX2_buf,rs485.RX2_buf,8);                            
 
             if( rs485.TX2_buf[5] & 0X01 )
             {
@@ -258,14 +247,7 @@ void Modbus_Fun6( void )
 
         /*  40002  24V LED开关状态设置                          */
         case 1:                                         
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = rs485.RX2_buf[2];        //reg H
-            rs485.TX2_buf[3] = rs485.RX2_buf[3];        //reg L
-            rs485.TX2_buf[4] = rs485.RX2_buf[4];        //Value H
-            rs485.TX2_buf[5] = rs485.RX2_buf[5];        //Value L
-            rs485.TX2_buf[6] = rs485.RX2_buf[6];        //CRC H
-            rs485.TX2_buf[7] = rs485.RX2_buf[7];        //CRC L
+            memcpy(rs485.TX2_buf,rs485.RX2_buf,8);
 
             if( rs485.TX2_buf[5] & 0X01 )
             {
@@ -287,14 +269,7 @@ void Modbus_Fun6( void )
 
         /*  40003  220V 开关及大小设置                          */
         case 2:                                         
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = rs485.RX2_buf[2];        //reg H
-            rs485.TX2_buf[3] = rs485.RX2_buf[3];        //reg L
-            rs485.TX2_buf[4] = rs485.RX2_buf[4];        //Value H
-            rs485.TX2_buf[5] = rs485.RX2_buf[5];        //Value L
-            rs485.TX2_buf[6] = rs485.RX2_buf[6];        //CRC H
-            rs485.TX2_buf[7] = rs485.RX2_buf[7];        //CRC L
+            memcpy(rs485.TX2_buf,rs485.RX2_buf,8);
 
             if( rs485.TX2_buf[5] & 0X01 )
             {
@@ -313,7 +288,38 @@ void Modbus_Fun6( void )
             eeprom_data_record();
 
             break;  
+            
+        /*  40004  NTC1 NTC2 alarm value 设置                   */
+        case 3:                                         
+            memcpy(rs485.TX2_buf,rs485.RX2_buf,8);
 
+            temp.temp_alarm_value1 = rs485.TX2_buf[5];
+            temp.temp_alarm_value2 = rs485.TX2_buf[4];
+            
+            rs485.TX2_send_bytelength = 8;
+            DR2 = 1;                                    //485可以发送
+            S2CON |= S2TI;                              //开始发送
+
+            eeprom.temp_alarm_value1 = temp.temp_alarm_value1;
+            eeprom.temp_alarm_value2 = temp.temp_alarm_value2;
+            eeprom_data_record();
+
+            break;
+
+        /*  40005  NTC3 alarm value 设置                        */
+        case 4:                                         
+            memcpy(rs485.TX2_buf,rs485.RX2_buf,8);
+
+            temp.temp_alarm_value3 = rs485.TX2_buf[5];
+            
+            rs485.TX2_send_bytelength = 8;
+            DR2 = 1;                                    //485可以发送
+            S2CON |= S2TI;                              //开始发送
+
+            eeprom.temp_alarm_value3 = temp.temp_alarm_value3;
+            eeprom_data_record();
+
+            break;
         default:
             break;   
     }
@@ -329,39 +335,103 @@ void Modbus_Fun6( void )
 void Modbus_Fun16( void )
 {
     uint16_t crc;
+    uint16_t i;
 
-    switch (rs485.RX2_buf[3])
-        case 3:
+    modbus.rcv_value_addr = 7;                  //DATA1 H位置
+    modbus.byte_cnt   = rs485.RX2_buf[6];
+    modbus.start_addr = rs485.RX2_buf[2]<<8 | rs485.RX2_buf[3];
+
+    memcpy(rs485.TX2_buf,rs485.RX2_buf,6);
+
+    for( i = modbus.start_addr; i < modbus.start_addr + modbus.byte_cnt/2; i++)
     {
-            rs485.TX2_buf[0] = rs485.RX2_buf[0];        //地址域
-            rs485.TX2_buf[1] = rs485.RX2_buf[1];        //功能域
-            rs485.TX2_buf[2] = rs485.RX2_buf[2];        //start reg H
-            rs485.TX2_buf[3] = rs485.RX2_buf[3];        //start reg L
-            rs485.TX2_buf[4] = rs485.RX2_buf[4];        //Num H
-            rs485.TX2_buf[5] = rs485.RX2_buf[5];        //Num L
+        modbus.byte_info_H = rs485.RX2_buf[modbus.rcv_value_addr];
+        modbus.byte_info_L = rs485.RX2_buf[modbus.rcv_value_addr + 1];
+        switch (i)
+        {
+            /*  40001  两路PWM 开关状态及风速设置                 */
+            case 0:
+                if( modbus.byte_info_L & 0X01 )
+                {
+                    PWMB_CCER2 |= 0X01;
+                }else
+                {
+                    PWMB_CCER2 &= 0XFE;
+                }
+                if( modbus.byte_info_L & 0X02 )
+                {
+                    PWMB_CCER2 |= 0X10;
+                }else
+                {
+                    PWMB_CCER2 &= 0XEF;
+                }
+                
+                PWMB_CCR7 = ((modbus.byte_info_L>>2) & 0x07)*184;
+                PWMB_CCR8 =  (modbus.byte_info_L>>5)*184;
 
-            temp.temp_alarm_value1 = rs485.RX2_buf[8];
-            temp.temp_alarm_value2 = rs485.RX2_buf[7];
-            temp.temp_alarm_value3 = rs485.RX2_buf[10];
+                eeprom.pwm_info = modbus.byte_info_L;
+                break;
+            
+            /*  40002  24V LED开关状态设置                          */
+            case 1:
+                if( modbus.byte_info_L & 0X01 )
+                {
+                    DC_24V_out(1);
+                }else
+                {
+                    DC_24V_out(0);
+                }
 
-            crc = MODBUS_CRC16(rs485.TX2_buf,6);
+                eeprom.led_info = modbus.byte_info_L;
+                break;
 
-            rs485.TX2_buf[6] = crc>>8;                 //CRC H
-            rs485.TX2_buf[7] = crc;                    //CRC L
+            /*  40003  220V 开关及大小设置                          */
+            case 2:
+                if( modbus.byte_info_L & 0X01 )
+                {
+                    EX0 = 1;
+                }else
+                {
+                    EX0 = 0;
+                }
+                AC_220V_out(modbus.byte_info_L>>1);
 
-            rs485.TX2_send_bytelength = 8;
+                eeprom.ac220_info = modbus.byte_info_L;
+                break;
 
-            DR2 = 1;                                   //485可以发送
-            S2CON |= S2TI;                             //开始发送
+            /*  40004  NTC1 NTC2 alarm value 设置                   */
+            case 3:
+                temp.temp_alarm_value1 = modbus.byte_info_L;
+                temp.temp_alarm_value2 = modbus.byte_info_H;
+                
 
-            eeprom.temp_alarm_value1 = temp.temp_alarm_value1;
-            eeprom.temp_alarm_value2 = temp.temp_alarm_value2;
-            eeprom.temp_alarm_value3 = temp.temp_alarm_value3;
+                eeprom.temp_alarm_value1 = temp.temp_alarm_value1;
+                eeprom.temp_alarm_value2 = temp.temp_alarm_value2;
+                break;
 
-            eeprom_data_record();
+            /*  40005  NTC3 alarm value 设置                        */
+            case 4:
+                temp.temp_alarm_value3 = modbus.byte_info_L;
 
-        break;
+                eeprom.temp_alarm_value3 = temp.temp_alarm_value3;
+                break;
+
+            default:
+                break;
+        }
+        modbus.rcv_value_addr += 2;         //从Value1_H →→ 从Value2_H
     }
+    
+    crc = MODBUS_CRC16(rs485.TX2_buf,6);
+    rs485.TX2_buf[6] = crc>>8;                 //CRC H
+    rs485.TX2_buf[7] = crc;                    //CRC L
+
+    rs485.TX2_send_bytelength = 8;
+
+    DR2 = 1;                                   //485可以发送
+    S2CON |= S2TI;  
+
+    eeprom_data_record();                      //记录更改后的值
 }
 
 /**
