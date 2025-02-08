@@ -39,6 +39,6 @@ uint16_t get_current( uint8_t channel_x)
     {
         current = 30;
     }
-
+    printf("The value of current is %d \r\n ",current);
     return current;
 }

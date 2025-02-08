@@ -84,12 +84,12 @@ void AC_220V_out( uint8_t power_level )
 **/
 void DC_24V_out( uint8_t on_off )
 {
-    if( on_off == 1)
-    {
-        DC_24V = 1;
-    }else
+    if( on_off == 1 )
     {
         DC_24V = 0;
+    }else
+    {
+        DC_24V = 1;
     }
 }
 

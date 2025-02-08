@@ -44,17 +44,17 @@
         {
             "name": "MultiFunPower",
             "includePath": [
-                "d:\\workspace\\MultiFunPower\\BSP\\Inc",
-                "d:\\workspace\\MultiFunPower\\Core\\Inc",
-                "d:\\workspace\\MultiFunPower\\Driver",
-                "d:\\workspace\\MultiFunPower\\Emembed\\Inc",
-                "d:\\workspace\\MultiFunPower\\SYSTEM\\Inc",
-                "D:\\APP\\Keil_v5\\C51\\INC",
-                "d:\\workspace\\MultiFunPower\\Project",
-                "d:\\workspace\\MultiFunPower\\SYSTEM\\Src",
-                "d:\\workspace\\MultiFunPower\\Core\\Src",
-                "d:\\workspace\\MultiFunPower\\BSP\\Src",
-                "d:\\workspace\\MultiFunPower\\Emembed\\Src"
+                "e:\\workspace\\MultiFunPower\\BSP\\Inc",
+                "e:\\workspace\\MultiFunPower\\Core\\Inc",
+                "e:\\workspace\\MultiFunPower\\Driver",
+                "e:\\workspace\\MultiFunPower\\Emembed\\Inc",
+                "e:\\workspace\\MultiFunPower\\SYSTEM\\Inc",
+                "D:\\APP\\Keil_STM32\\C51\\INC",
+                "e:\\workspace\\MultiFunPower\\Project",
+                "e:\\workspace\\MultiFunPower\\SYSTEM\\Src",
+                "e:\\workspace\\MultiFunPower\\Core\\Src",
+                "e:\\workspace\\MultiFunPower\\BSP\\Src",
+                "e:\\workspace\\MultiFunPower\\Emembed\\Src"
             ],
             "defines": [
                 "__C51__",

@@ -1,0 +1,1 @@
+"..\Core\Src\adc.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\adc.lst) OBJECT(..\Output\adc.obj)

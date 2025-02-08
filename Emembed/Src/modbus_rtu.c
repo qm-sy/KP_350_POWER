@@ -165,14 +165,14 @@ void Modbus_Fun4( void )
         {   
             /*  30001 NTC1 NTC2温度查询                     */
             case 0:
-                modbus.byte_info_H = get_temp(NTC_2);   
-                modbus.byte_info_L = get_temp(NTC_1);           
+                modbus.byte_info_L = get_temp(NTC_1);
+                modbus.byte_info_H = get_temp(NTC_2);     
                 break;
 
             /*  30002 NTC3 NTC4温度查询                     */    
             case 1:
-                modbus.byte_info_H = get_temp(NTC_4);
                 modbus.byte_info_L = get_temp(NTC_3);
+                modbus.byte_info_H = get_temp(NTC_4);
                 break;
 
             /*    30003 3路电流查询                         */
@@ -238,6 +238,7 @@ void Modbus_Fun6( void )
             rs485.TX2_send_bytelength = 8;
 
             DR2 = 1;                                    //485可以发送
+            delay_ms(5);
             S2CON |= S2TI;                              //开始发送
 
             eeprom.pwm_info = rs485.TX2_buf[5];
@@ -260,6 +261,7 @@ void Modbus_Fun6( void )
             rs485.TX2_send_bytelength = 8;
 
             DR2 = 1;                                    //485可以发送
+            delay_ms(5);
             S2CON |= S2TI;                              //开始发送
 
             eeprom.led_info = rs485.TX2_buf[5];
@@ -282,6 +284,7 @@ void Modbus_Fun6( void )
 
             rs485.TX2_send_bytelength = 8;
             DR2 = 1;                                    //485可以发送
+            delay_ms(5);
             S2CON |= S2TI;                              //开始发送
 
             eeprom.ac220_info = rs485.TX2_buf[5];
@@ -298,6 +301,7 @@ void Modbus_Fun6( void )
             
             rs485.TX2_send_bytelength = 8;
             DR2 = 1;                                    //485可以发送
+            delay_ms(5);
             S2CON |= S2TI;                              //开始发送
 
             eeprom.temp_alarm_value1 = temp.temp_alarm_value1;
@@ -314,6 +318,7 @@ void Modbus_Fun6( void )
             
             rs485.TX2_send_bytelength = 8;
             DR2 = 1;                                    //485可以发送
+            delay_ms(5);
             S2CON |= S2TI;                              //开始发送
 
             eeprom.temp_alarm_value3 = temp.temp_alarm_value3;
@@ -429,6 +434,7 @@ void Modbus_Fun16( void )
     rs485.TX2_send_bytelength = 8;
 
     DR2 = 1;                                   //485可以发送
+    delay_ms(5);
     S2CON |= S2TI;  
 
     eeprom_data_record();                      //记录更改后的值
