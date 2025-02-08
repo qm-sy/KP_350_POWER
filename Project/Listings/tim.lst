@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   TIM                                                               02/07/2025 14:55:28 PAGE 1   
+C51 COMPILER V9.60.7.0   TIM                                                               02/08/2025 17:00:01 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE TIM
@@ -58,22 +58,22 @@ line level    source
   47   1      }
   48          
   49          /**
-  50           * @brief       Timer3初始化函数
+  50           * @brief       Timer4初始化函数
   51           *
   52           * @param   
   53           *
-C51 COMPILER V9.60.7.0   TIM                                                               02/07/2025 14:55:28 PAGE 2   
+C51 COMPILER V9.60.7.0   TIM                                                               02/08/2025 17:00:01 PAGE 2   
 
   54           * @return  void
   55          **/
-  56          void Timer3_Init( void )                //10us@11.0592MHz    16位自动重装载
+  56          void Timer4_Init( void )                //10us@11.0592MHz    16位自动重装载
   57          {
-  58   1              T4T3M |= 0x02;                          //定时器时钟12T模式
-  59   1              T3L    = 0x91;                                  //设置定时初始值
-  60   1              T3H    = 0xFF;                                  //设置定时初始值
-  61   1              T4T3M |= 0x08;                          //定时器3开始计时
+  58   1              T4T3M |= 0x20;                  //定时器时钟1T模式
+  59   1              T4L = 0x91;                             //设置定时初始值
+  60   1              T4H = 0xFF;                             //设置定时初始值
+  61   1              T4T3M |= 0x80;                  //定时器4开始计时
   62   1      
-  63   1              IE2  |=  0x20;                          //打开IE2-ET3，TIM3中断
+  63   1              IE2  |=  0x40;                  //打开IE2-ET4，TIM4中断
   64   1      }
 
 

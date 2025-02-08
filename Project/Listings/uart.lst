@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   UART                                                              02/07/2025 14:55:28 PAGE 1   
+C51 COMPILER V9.60.7.0   UART                                                              02/08/2025 17:00:01 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE UART
@@ -34,36 +34,37 @@ line level    source
   23   1              IE2   |= 0X01;                  //串口2 中断允许位
   24   1      }
   25          
-  26          /**
-  27           * @brief       串口4初始化函数--tim4
-  28           *
-  29           * @param   
-  30           *
-  31           * @return  void
-  32          **/
-  33          void Uart4_Init( void ) //115200bps@11.0592MHz
-  34          {
-  35   1              P_SW2 |= 0X04;          //串口4功能脚选择P5.2 P5.3
-  36   1              
-  37   1              S4CON  = 0x10;          //8位数据,可变波特率
-  38   1              S4CON |= 0x40;          //串口4选择定时器4为波特率发生器
-  39   1      
-  40   1              T4T3M |= 0x20;          //定时器时钟1T模式
-  41   1      
-  42   1              T4L    = 0xE8;          //设置定时初始值
-  43   1              T4H    = 0xFF;          //设置定时初始值
-  44   1      
-  45   1              T4T3M |= 0x80;          //定时器4开始计时
-  46   1      
-  47   1              IE2   |= 0x10;          // 串口4中断打开
-  48   1      }
+  26          
+  27          /**
+  28           * @brief       串口3初始化函数--tim3
+  29           *
+  30           * @param   
+  31           *
+  32           * @return  void
+  33          **/
+  34          void Uart3_Init( void ) //115200bps@11.0592MHz
+  35          {
+  36   1              P_SW2 |= 0X00;          //串口3功能脚选择P0.0 P0.1
+  37   1              
+  38   1              S3CON  = 0x10;          //8位数据,可变波特率
+  39   1              S3CON |= 0x40;          //串口3选择定时器3为波特率发生器
+  40   1      
+  41   1              T4T3M |= 0x02;          //定时器时钟1T模式
+  42   1      
+  43   1              T3L = 0xE8;                     //设置定时初始值
+  44   1              T3H = 0xFF;                     //设置定时初始值
+  45   1      
+  46   1              T4T3M |= 0x08;          //定时器3开始计时
+  47   1      
+  48   1              IE2   |= 0x08;          // 串口3中断打开  
+  49   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     44    ----
-   CONSTANT SIZE    =   ----    ----
-C51 COMPILER V9.60.7.0   UART                                                              02/07/2025 14:55:28 PAGE 2   
+   CODE SIZE        =     41    ----
+C51 COMPILER V9.60.7.0   UART                                                              02/08/2025 17:00:01 PAGE 2   
 
+   CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----

@@ -14,7 +14,7 @@ void eeprom_statu_judge( void )
     uint8_t eeprom_statu_flag;
 
     eeprom_statu_flag = ISP_Read(EEPROM_STATU_JUDGE);
-    printf("The value of eeprom_statu_flag is 0x%02x \r\n",(int)eeprom_statu_flag);
+    //printf("The value of eeprom_statu_flag is 0x%02x \r\n",(int)eeprom_statu_flag);
     if( eeprom_statu_flag == 0xFF)
     {
         eeprom.pwm_info          = 0x6f;          //011 011 11 pwm7、8默认开，3档风速

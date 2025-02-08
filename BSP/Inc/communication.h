@@ -24,8 +24,8 @@ void Uart2_Sendbyte( uint8_t dat );
 void Uart2_SendStr( uint8_t *sendstr );
 void Uart2_Send_Statu_Init( void );
 
-void Uart4_Sendbyte( uint8_t dat );
-void Uart4_SendStr( uint8_t *sendstr );
+void Uart3_Sendbyte( uint8_t dat );
+void Uart3_SendStr( uint8_t *sendstr );
 char putchar(char c);
 
 #endif

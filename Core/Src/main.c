@@ -7,7 +7,7 @@ void main( void )
     GPIO_Init();
 
     /*  调试使用 printf  */
-    Uart4_Init();
+    Uart3_Init();
     
     /*  温度控制  */
     ADC_Init();
@@ -20,7 +20,7 @@ void main( void )
     /*  4路220输出控制  */
     INT0_Init();
     Timer1_Init();
-    Timer3_Init();
+    Timer4_Init();
     Power_Statu_Init();
 
     /*  PWM控制  */
@@ -29,11 +29,12 @@ void main( void )
     EA = 1;
 
     eeprom_statu_judge();
-
     printf("========== code start ========== \r\n");
+    //printf("========== code start ========== \r\n");
+    
     while (1)
     {
         Modbus_Event();
-        temp_scan();
+        //temp_scan();
     }  
 }

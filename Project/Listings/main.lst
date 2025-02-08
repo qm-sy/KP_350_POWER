@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              02/07/2025 14:55:28 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              02/08/2025 17:00:01 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -18,7 +18,7 @@ line level    source
    7   1          GPIO_Init();
    8   1      
    9   1          /*  调试使用 printf  */
-  10   1          Uart4_Init();
+  10   1          Uart3_Init();
   11   1          
   12   1          /*  温度控制  */
   13   1          ADC_Init();
@@ -31,7 +31,7 @@ line level    source
   20   1          /*  4路220输出控制  */
   21   1          INT0_Init();
   22   1          Timer1_Init();
-  23   1          Timer3_Init();
+  23   1          Timer4_Init();
   24   1          Power_Statu_Init();
   25   1      
   26   1          /*  PWM控制  */
@@ -40,18 +40,19 @@ line level    source
   29   1          EA = 1;
   30   1      
   31   1          eeprom_statu_judge();
-  32   1      
-  33   1          printf("========== code start ========== \r\n");
-  34   1          while (1)
-  35   1          {
-  36   2              Modbus_Event();
-  37   2              temp_scan();
-  38   2          }  
-  39   1      }
+  32   1          printf("========== code start ========== \r\n");
+  33   1          //printf("========== code start ========== \r\n");
+  34   1          
+  35   1          while (1)
+  36   1          {
+  37   2              Modbus_Event();
+  38   2              //temp_scan();
+  39   2          }  
+  40   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     58    ----
+   CODE SIZE        =     55    ----
    CONSTANT SIZE    =     36    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

@@ -1,13 +1,13 @@
 #include "common.h"
 
 /**
- * @brief	一些定时执行的事件   Timer3：10us
+ * @brief	一些定时执行的事件   Timer4：10us
  *
  * @param   
  *
  * @return  void
 **/
-void Tim3_ISR( void ) interrupt 19 
+void Tim4_ISR( void ) interrupt 20
 {
     static uint8_t trun_flag = 1;
     static uint16_t temp_scan_cnt1 = 0;

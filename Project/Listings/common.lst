@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   COMMON                                                            02/07/2025 14:55:29 PAGE 1   
+C51 COMPILER V9.60.7.0   COMMON                                                            02/08/2025 17:00:02 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE COMMON
@@ -12,13 +12,13 @@ line level    source
    1          #include "common.h"
    2          
    3          /**
-   4           * @brief       一些定时执行的事件   Timer3：10us
+   4           * @brief       一些定时执行的事件   Timer4：10us
    5           *
    6           * @param   
    7           *
    8           * @return  void
    9          **/
-  10          void Tim3_ISR( void ) interrupt 19 
+  10          void Tim4_ISR( void ) interrupt 20
   11          {
   12   1          static uint8_t trun_flag = 1;
   13   1          static uint16_t temp_scan_cnt1 = 0;
@@ -62,7 +62,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.7.0   COMMON                                                            02/07/2025 14:55:29 PAGE 2   
+C51 COMPILER V9.60.7.0   COMMON                                                            02/08/2025 17:00:02 PAGE 2   
 
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

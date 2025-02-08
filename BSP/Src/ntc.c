@@ -45,7 +45,7 @@ static uint16_t MF52E_tab[NTCTabNum]={
 static uint16_t LookupTable( uint16_t *temp_tab, uint8_t tab_num, uint16_t adc_val )
 {
 		uint8_t	i;
-        uint16_t temp_val;
+        uint16_t temp_val = 0;
 	
 		for( i = 0; i < (tab_num-1); i++ )
 		{
@@ -75,10 +75,10 @@ uint16_t get_temp( uint8_t channle_x )
 			adc_val += Get_ADC_12bit(channle_x);
 		}	       
     adc_val = adc_val/10;
-
+    printf("The adc_val is %d \r\n",adc_val);
     /* 2, 查表，找到对应温度值                     */
     temp = LookupTable( MF52E_tab, NTCTabNum, adc_val );
-
+    printf("The temp is %d \r\n",temp);
     return temp;
 }
 

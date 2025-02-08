@@ -19,7 +19,7 @@ uint16_t get_current( uint8_t channel_x)
         adc_val += Get_ADC_12bit(channel_x);
     }
     adc_val = adc_val/10;
-    printf("The  value of adc_val is %d \r\n",(int)adc_val);
+    //printf("The  value of adc_val is %d \r\n",(int)adc_val);
     /* 2, 先取余，四舍五入，后对36取整            */
     if( adc_val < 1360 )
     {

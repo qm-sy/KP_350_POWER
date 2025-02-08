@@ -1,7 +1,7 @@
 #include "communication.h"
 
 RS485 rs485;
-uint8_t TX4_busy_Flag = 1;
+uint8_t TX3_busy_Flag = 0;
 
 /**
  * @brief	串口2调用结构体 rs485 初始化
@@ -100,87 +100,56 @@ void Tim0_ISR( void ) interrupt 1   //1ms
     } 
 }
 
-// /**
-//  * @brief	串口2发送1字节数据
-//  *
-//  * @param   
-//  *
-//  * @return  void
-// **/
-// void Uart2_Sendbyte( uint8_t dat )
-// {
-//     while( rs485.TX2_busy_Flag );
-//     rs485.TX2_busy_Flag = 1;
-//     S2BUF = dat;
-
-// }
-
-// /**
-//  * @brief	串口2发送字符串
-//  *
-//  * @param   
-//  *
-//  * @return  void
-// **/
-// void Uart2_SendStr( uint8_t *sendstr )
-// {   
-//     while(*sendstr)
-//     {
-//         Uart2_Sendbyte(*sendstr++);
-//     }
-// }
 
 /**
- * @brief	串口4中断处理函数
+ * @brief	串口3中断处理函数
  *
  * @param   
  *
  * @return  void
 **/
-void Uart4_ISR() interrupt 18
+void Uart3_ISR() interrupt 17
 {
-    if (S4CON & S4TI)                //在停止位开始发送时，该位置1
+    if (S3CON & S3TI)                //在停止位开始发送时，该位置1
     {
-        S4CON &= ~S4TI;   			     //清除S4CON寄存器对应S4TI位（该位必须软件清零）
-        TX4_busy_Flag = 0;
+        S3CON &= ~S3TI;   			     //清除S3CON寄存器对应S3TI位（该位必须软件清零）
+        TX3_busy_Flag = 0;
     }
 
-    if (S4CON & S4RI)                //串行接收到停止位的中间时刻时，该位置1
+    if (S3CON & S3RI)                //串行接收到停止位的中间时刻时，该位置1
     {
-        S4CON &= ~S4RI;              //清除S4CON寄存器对应S4RI位（该位必须软件清零）
-               
+        S3CON &= ~S3RI;              //清除S3CON寄存器对应S3RI位（该位必须软件清零） 
     }
 }
 
-// /**
-//  * @brief	串口4发送1字节数据
-//  *
-//  * @param   
-//  *
-//  * @return  void
-// **/
-// void Uart4_Sendbyte( uint8_t dat )
-// {
-//     while( TX4_busy_Flag );
-//     TX4_busy_Flag = 1;
-//     S4BUF = dat;
+/**
+ * @brief	串口3发送1字节数据
+ *
+ * @param   
+ *
+ * @return  void
+**/
+void Uart3_Sendbyte( uint8_t dat )
+{
+    while( TX3_busy_Flag );
+    TX3_busy_Flag = 1;
+    S3BUF = dat;
+}
 
-// }
-
-// /**
-//  * @brief	串口4发送字符串
-//  *
-//  * @param   
-//  *
-//  * @return  void
-// **/
-// void Uart4_SendStr( uint8_t *sendstr )
-// {   
-//     while(*sendstr)
-//     {
-//         Uart4_Sendbyte(*sendstr++);
-//     }
-// }
+/**
+ * @brief	串口3发送字符串
+ *
+ * @param   
+ *
+ * @return  void
+**/
+void Uart3_SendStr( uint8_t *sendstr )
+{   
+    while(*sendstr)
+    {
+        Uart3_Sendbyte(*sendstr++);
+    }
+}
 
 /**
  * @brief	串口重定向
@@ -191,9 +160,9 @@ void Uart4_ISR() interrupt 18
 **/
 char putchar(char c)  // 串口重定向需要添加头文件stdio.h
 {
-    S4BUF = c;
-    while(TX4_busy_Flag);
-    TX4_busy_Flag = 1;
+    S3BUF = c;
+    while(TX3_busy_Flag);
+    TX3_busy_Flag = 1;
     return c;
 }
 

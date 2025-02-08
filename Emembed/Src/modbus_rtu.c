@@ -492,5 +492,6 @@ void slave_to_master(uint8_t length)
     rs485.TX2_send_bytelength = length + 2;
 
     DR2 = 1;                                        //485可以发送
+    delay_ms(5);
     S2CON |= S2TI;                                  //开始发送
 }

@@ -47,18 +47,18 @@ void Timer1_Init( void )		//10ms@11.0592Mhz   16位手动重装载
 }
 
 /**
- * @brief	Timer3初始化函数
+ * @brief	Timer4初始化函数
  *
  * @param   
  *
  * @return  void
 **/
-void Timer3_Init( void )		//10us@11.0592MHz    16位自动重装载
+void Timer4_Init( void )		//10us@11.0592MHz    16位自动重装载
 {
-	T4T3M |= 0x02;				//定时器时钟12T模式
-	T3L    = 0x91;					//设置定时初始值
-	T3H    = 0xFF;					//设置定时初始值
-	T4T3M |= 0x08;				//定时器3开始计时
+	T4T3M |= 0x20;			//定时器时钟1T模式
+	T4L = 0x91;				//设置定时初始值
+	T4H = 0xFF;				//设置定时初始值
+	T4T3M |= 0x80;			//定时器4开始计时
 
-	IE2  |=  0x20;				//打开IE2-ET3，TIM3中断
+	IE2  |=  0x40;			//打开IE2-ET4，TIM4中断
 }
