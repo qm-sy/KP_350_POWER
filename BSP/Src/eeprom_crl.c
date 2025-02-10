@@ -99,10 +99,10 @@ void eeprom_data_init( void )
     eeprom.ac220_info = ISP_Read(AC220_ADDR_EEPROM);
     if( eeprom.ac220_info & 0X01 )
     {
-        EX0 = 1;
+        INTCLKO |= 0x10;
     }else
     {
-        EX0 = 0;
+        INTCLKO &= ~0x10;
     }
     AC_220V_out(eeprom.ac220_info>>1);
 

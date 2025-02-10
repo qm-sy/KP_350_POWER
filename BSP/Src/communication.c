@@ -122,34 +122,34 @@ void Uart3_ISR() interrupt 17
     }
 }
 
-/**
- * @brief	串口3发送1字节数据
- *
- * @param   
- *
- * @return  void
-**/
-void Uart3_Sendbyte( uint8_t dat )
-{
-    while( TX3_busy_Flag );
-    TX3_busy_Flag = 1;
-    S3BUF = dat;
-}
+// /**
+//  * @brief	串口3发送1字节数据
+//  *
+//  * @param   
+//  *
+//  * @return  void
+// **/
+// void Uart3_Sendbyte( uint8_t dat )
+// {
+//     while( TX3_busy_Flag );
+//     TX3_busy_Flag = 1;
+//     S3BUF = dat;
+// }
 
-/**
- * @brief	串口3发送字符串
- *
- * @param   
- *
- * @return  void
-**/
-void Uart3_SendStr( uint8_t *sendstr )
-{   
-    while(*sendstr)
-    {
-        Uart3_Sendbyte(*sendstr++);
-    }
-}
+// /**
+//  * @brief	串口3发送字符串
+//  *
+//  * @param   
+//  *
+//  * @return  void
+// **/
+// void Uart3_SendStr( uint8_t *sendstr )
+// {   
+//     while(*sendstr)
+//     {
+//         Uart3_Sendbyte(*sendstr++);
+//     }
+// }
 
 /**
  * @brief	串口重定向

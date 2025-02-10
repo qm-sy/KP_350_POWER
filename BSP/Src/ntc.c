@@ -102,26 +102,26 @@ void temp_scan( void )
 
         if( temp.temp_value1 >= temp.temp_alarm_value1 )
         {
-            ac_220.ac220_on_off &= ~0x01;        //001
+            AC_Out1 = 1;        //001
         }else
         {
-            ac_220.ac220_on_off |= 0x01;
+            AC_Out1 = 0;
         }
 
         if( temp.temp_value2 >= temp.temp_alarm_value2 )
         {
-            ac_220.ac220_on_off &= ~0x02;        //101
+            AC_Out2 = 1;        //001
         }else
         {
-            ac_220.ac220_on_off |= 0x02;
+            AC_Out2 = 0;
         }
 
         if( temp.temp_value3 >= temp.temp_alarm_value3 )
         {
-            ac_220.ac220_on_off &= ~0x04;        //011
+            AC_Out3 = 1;        //001
         }else
         {
-            ac_220.ac220_on_off |= 0x04;
+            AC_Out3 = 0;
         }
 
         temp.temp_scan_flag = 0;

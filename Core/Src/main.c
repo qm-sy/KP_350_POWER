@@ -18,10 +18,11 @@ void main( void )
     Timer0_Init();
 
     /*  4路220输出控制  */
-    INT0_Init();
+    Power_Statu_Init();
+    INT2_Init();
     Timer1_Init();
     Timer4_Init();
-    Power_Statu_Init();
+    
 
     /*  PWM控制  */
     PWM_Init();
@@ -35,6 +36,6 @@ void main( void )
     while (1)
     {
         Modbus_Event();
-        //temp_scan();
+        temp_scan();
     }  
 }

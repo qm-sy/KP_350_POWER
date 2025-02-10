@@ -12,6 +12,7 @@ AC_220 ac_220;
 void Power_Statu_Init( void )
 {
     ac_220.zero_flag  = 0;
+    AC_Out1 = AC_Out2 = AC_Out3 = 1;
 }
 
 /**
@@ -21,7 +22,7 @@ void Power_Statu_Init( void )
  *
  * @return  void
 **/
-void INT0_ISR( void ) interrupt 0
+void INT2_ISR( void ) interrupt 10
 {
     /* 1, 检测到外部中断后，等待THL\TLI后触发TIM1中断       */
     TL1 = ac_220.time_delay;				

@@ -7,10 +7,9 @@
  *
  * @return  void
 **/
-void INT0_Init( void )
+void INT2_Init( void )
 {
-    IT0 = 1;   				//下降沿触发过零检测信号
-    EX0 = 1;    			//使能INT0中断
+    INTCLKO |= 0X10;    			//使能INT2中断
 }
 
 /**
@@ -53,11 +52,11 @@ void Timer1_Init( void )		//10ms@11.0592Mhz   16位手动重装载
  *
  * @return  void
 **/
-void Timer4_Init( void )		//10us@11.0592MHz    16位自动重装载
+void Timer4_Init( void )		//10ms@11.0592MHz    16位自动重装载
 {
-	T4T3M |= 0x20;			//定时器时钟1T模式
-	T4L = 0x91;				//设置定时初始值
-	T4H = 0xFF;				//设置定时初始值
+	T4T3M &= 0xDF;			//定时器时钟12T模式
+	T4L = 0x00;				//设置定时初始值
+	T4H = 0xDC;				//设置定时初始值
 	T4T3M |= 0x80;			//定时器4开始计时
 
 	IE2  |=  0x40;			//打开IE2-ET4，TIM4中断

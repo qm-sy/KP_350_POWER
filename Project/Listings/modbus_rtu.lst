@@ -1,11 +1,11 @@
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 1   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MODBUS_RTU
 OBJECT MODULE PLACED IN ..\Output\modbus_rtu.obj
-COMPILER INVOKED BY: D:\APP\Keil_STM32\C51\BIN\C51.EXE ..\Emembed\Src\modbus_rtu.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR
-                    -(..\BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\modbus_rtu.lst) OBJE
-                    -CT(..\Output\modbus_rtu.obj)
+COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\Emembed\Src\modbus_rtu.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..
+                    -\BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\modbus_rtu.lst) OBJECT(
+                    -..\Output\modbus_rtu.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   51   5      
   52   5                          default:
   53   5                              break;
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 2   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 2   
 
   54   5                      }
   55   4                  }
@@ -113,9 +113,9 @@ line level    source
  100   3                  /*  40002  LED开关状态查询                          */
  101   3                  case 1:
  102   3                      modbus.byte_info_H = 0X00;
- 103   3                      if( EX0 & 1 )
+ 103   3                      if( DC_24V & 1 )
  104   3                      {
- 105   4                          modbus.byte_info_L |= 0x01;                              //LED开关状态
+ 105   4                          modbus.byte_info_L |= 0x00;                              //LED开关状态
  106   4                      }
  107   3                      break;
  108   3      
@@ -123,10 +123,10 @@ line level    source
  110   3                  case 2:
  111   3                      modbus.byte_info_H = 0X00;
  112   3                      modbus.byte_info_L = ((ac_220.time_delay - 58000) / 75)<<1;  //220V 功率
- 113   3                      if( EX0 & 1 )
+ 113   3                      if( INTCLKO & 0x10 )
  114   3                      {
  115   4                          modbus.byte_info_L |= 0x01;                             //220V运行状态
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 3   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 3   
 
  116   4                      }
  117   3                      break;
@@ -190,9 +190,9 @@ line level    source
  175   3                      modbus.byte_info_H = get_temp(NTC_4);
  176   3                      break;
  177   3      
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 4   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 4   
 
- 178   3                  /*    30003 3路电流查询                         */
+ 178   3                  /*    30003 2路IR查询                         */
  179   3                  case 2:    
  180   3                      modbus.byte_info_H = 0xaa;
  181   3                      modbus.byte_info_L = 0xbb;
@@ -254,7 +254,7 @@ line level    source
  237   2      
  238   2                  rs485.TX2_send_bytelength = 8;
  239   2      
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 5   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 5   
 
  240   2                  DR2 = 1;                                    //485可以发送
  241   2                  delay_ms(5);
@@ -294,10 +294,10 @@ line level    source
  275   2      
  276   2                  if( rs485.TX2_buf[5] & 0X01 )
  277   2                  {
- 278   3                      EX0 = 1;
+ 278   3                      INTCLKO |= 0x10;
  279   3                  }else
  280   2                  {
- 281   3                      EX0 = 0;
+ 281   3                      INTCLKO &= ~0x10;
  282   3                  }
  283   2                  AC_220V_out(rs485.TX2_buf[5]>>1);
  284   2      
@@ -318,7 +318,7 @@ line level    source
  299   2                  temp.temp_alarm_value1 = rs485.TX2_buf[5];
  300   2                  temp.temp_alarm_value2 = rs485.TX2_buf[4];
  301   2                  
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 6   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 6   
 
  302   2                  rs485.TX2_send_bytelength = 8;
  303   2                  DR2 = 1;                                    //485可以发送
@@ -382,7 +382,7 @@ line level    source
  361   4                          PWMB_CCER2 |= 0X01;
  362   4                      }else
  363   3                      {
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 7   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 7   
 
  364   4                          PWMB_CCER2 &= 0XFE;
  365   4                      }
@@ -417,10 +417,10 @@ line level    source
  394   3                  case 2:
  395   3                      if( modbus.byte_info_L & 0X01 )
  396   3                      {
- 397   4                          EX0 = 1;
+ 397   4                          INTCLKO |= 0x10;
  398   4                      }else
  399   3                      {
- 400   4                          EX0 = 0;
+ 400   4                          INTCLKO &= ~0x10;
  401   4                      }
  402   3                      AC_220V_out(modbus.byte_info_L>>1);
  403   3      
@@ -446,7 +446,7 @@ line level    source
  423   3      
  424   3                  default:
  425   3                      break;
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 8   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 8   
 
  426   3              }
  427   2              modbus.rcv_value_addr += 2;         //从Value1_H →→ 从Value2_H
@@ -510,7 +510,7 @@ line level    source
  482          /**
  483           * @brief       从机回复主机
  484           *  
-C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/08/2025 21:38:19 PAGE 9   
+C51 COMPILER V9.60.7.0   MODBUS_RTU                                                        02/09/2025 16:48:56 PAGE 9   
 
  485           * @param   length:数据长度           
  486           * 
@@ -534,7 +534,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1808    ----
+   CODE SIZE        =   1816    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      7       9
    PDATA SIZE       =   ----    ----

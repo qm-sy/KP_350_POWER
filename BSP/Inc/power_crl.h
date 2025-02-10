@@ -11,7 +11,7 @@
 typedef struct 
 {
     uint8_t  ac220_on_off;
-    uint8_t  zero_flag;          //220V输入触发标志位
+    volatile uint8_t  zero_flag;          //220V输入触发标志位
     uint16_t time_delay;         //移相延时
 }AC_220;
 

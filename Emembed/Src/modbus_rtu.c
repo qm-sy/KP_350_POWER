@@ -100,9 +100,9 @@ void Modbus_Fun3( void )
             /*  40002  LED开关状态查询                          */
             case 1:
                 modbus.byte_info_H = 0X00;
-                if( EX0 & 1 )
+                if( DC_24V & 1 )
                 {
-                    modbus.byte_info_L |= 0x01;                              //LED开关状态
+                    modbus.byte_info_L |= 0x00;                              //LED开关状态
                 }
                 break;
 
@@ -110,7 +110,7 @@ void Modbus_Fun3( void )
             case 2:
                 modbus.byte_info_H = 0X00;
                 modbus.byte_info_L = ((ac_220.time_delay - 58000) / 75)<<1;  //220V 功率
-                if( EX0 & 1 )
+                if( INTCLKO & 0x10 )
                 {
                     modbus.byte_info_L |= 0x01;                             //220V运行状态
                 }
@@ -175,7 +175,7 @@ void Modbus_Fun4( void )
                 modbus.byte_info_H = get_temp(NTC_4);
                 break;
 
-            /*    30003 3路电流查询                         */
+            /*    30003 2路IR查询                         */
             case 2:    
                 modbus.byte_info_H = 0xaa;
                 modbus.byte_info_L = 0xbb;
@@ -275,10 +275,10 @@ void Modbus_Fun6( void )
 
             if( rs485.TX2_buf[5] & 0X01 )
             {
-                EX0 = 1;
+                INTCLKO |= 0x10;
             }else
             {
-                EX0 = 0;
+                INTCLKO &= ~0x10;
             }
             AC_220V_out(rs485.TX2_buf[5]>>1);
 
@@ -394,10 +394,10 @@ void Modbus_Fun16( void )
             case 2:
                 if( modbus.byte_info_L & 0X01 )
                 {
-                    EX0 = 1;
+                    INTCLKO |= 0x10;
                 }else
                 {
-                    EX0 = 0;
+                    INTCLKO &= ~0x10;
                 }
                 AC_220V_out(modbus.byte_info_L>>1);
 
