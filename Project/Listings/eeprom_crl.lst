@@ -1,11 +1,11 @@
-C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        02/09/2025 15:24:14 PAGE 1   
+C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        02/13/2025 01:49:34 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EEPROM_CRL
 OBJECT MODULE PLACED IN ..\Output\eeprom_crl.obj
-COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\BSP\Src\eeprom_crl.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP
-                    -\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\eeprom_crl.lst) OBJECT(..\O
-                    -utput\eeprom_crl.obj)
+COMPILER INVOKED BY: D:\APP\Keil_STM32\C51\BIN\C51.EXE ..\BSP\Src\eeprom_crl.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\
+                    -BSP\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\eeprom_crl.lst) OBJECT(.
+                    -.\Output\eeprom_crl.obj)
 
 line level    source
 
@@ -28,7 +28,7 @@ line level    source
   17   1          //printf("The value of eeprom_statu_flag is 0x%02x \r\n",(int)eeprom_statu_flag);
   18   1          if( eeprom_statu_flag == 0xFF)
   19   1          {
-  20   2              eeprom.pwm_info          = 0x6f;          //011 011 11 pwm7、8默认开，3档风速
+  20   2              eeprom.pwm_info          = 0x33;          //011 011 11 pwm7、8默认开，3档风速
   21   2              eeprom.led_info          = 0x01;          //0000000 1  led默认开
   22   2              eeprom.ac220_info        = 0x65;          //0110010 1  220V_CH4默认开，50%功率
   23   2              eeprom.temp_alarm_value1 = 0x50;          //NTC1 alarm value 默认80℃
@@ -62,7 +62,7 @@ line level    source
   51   1      
   52   1          // printf("The value of 0 is : 0x%02x \r\n",(int)eeprom.pwm_info);
   53   1          // printf("The value of 1 is : 0x%02x \r\n",(int)eeprom.led_info);
-C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        02/09/2025 15:24:14 PAGE 2   
+C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        02/13/2025 01:49:34 PAGE 2   
 
   54   1          // printf("The value of 2 is : 0x%02x \r\n",(int)eeprom.ac220_info);
   55   1          // printf("The value of 3 is : 0x%02x \r\n",(int)eeprom.temp_alarm_value1);
@@ -81,63 +81,53 @@ line level    source
   68          {
   69   1          /*    PWM7、PWM8 风速及开关状态初始化    */
   70   1          eeprom.pwm_info = ISP_Read(PWM_ADDR_EEPROM);
-  71   1          PWMB_CCR7 = ((eeprom.pwm_info>>2) & 0x07)*184;
-  72   1          PWMB_CCR8 = (eeprom.pwm_info>>5)*184;
-  73   1          if( eeprom.pwm_info & 0X01 )
-  74   1          {
-  75   2              PWMB_CCER2 |= 0X01;
-  76   2          }else
+  71   1          PWMB_CCR7 = ((eeprom.pwm_info) & 0x0F)*184;
+  72   1          PWMB_CCR8 = (eeprom.pwm_info>>4)*184;
+  73   1      
+  74   1          /*    LED开关状态初始化    */
+  75   1          eeprom.led_info = ISP_Read(LED_ADDR_EEPROM);
+  76   1          if( eeprom.led_info & 0X01 )
   77   1          {
-  78   2              PWMB_CCER2 &= 0XFE;
-  79   2          }
-  80   1          if( eeprom.pwm_info & 0X02 )
-  81   1          {
-  82   2              PWMB_CCER2 |= 0X10;
-  83   2          }else
-  84   1          {
-  85   2              PWMB_CCER2 &= 0XEF;
-  86   2          }
-  87   1      
-  88   1          /*    LED开关状态初始化    */
-  89   1          eeprom.led_info = ISP_Read(LED_ADDR_EEPROM);
-  90   1          if( eeprom.led_info & 0X01 )
-  91   1          {
-  92   2              DC_24V_out(1);
-  93   2          }else
-  94   1          {
-  95   2              DC_24V_out(0);
+  78   2              DC_24V_out(1);
+  79   2          }else
+  80   1          {
+  81   2              DC_24V_out(0);
+  82   2          }
+  83   1      
+  84   1          /*    220V输出开关状态初始化    */
+  85   1          eeprom.ac220_info = ISP_Read(AC220_ADDR_EEPROM);
+  86   1          if( eeprom.ac220_info & 0X01 )
+  87   1          {
+  88   2              INTCLKO |= 0x10;
+  89   2              temp.temp_scan_allow_flag = 1;
+  90   2              AC_Out1 = AC_Out2 = AC_Out3 = 0;
+  91   2          }else
+  92   1          {
+  93   2              INTCLKO &= ~0x10;
+  94   2              temp.temp_scan_allow_flag = 0;
+  95   2              AC_Out1 = AC_Out2 = AC_Out3 = 1;
   96   2          }
-  97   1      
-  98   1          /*    220V输出开关状态初始化    */
-  99   1          eeprom.ac220_info = ISP_Read(AC220_ADDR_EEPROM);
- 100   1          if( eeprom.ac220_info & 0X01 )
- 101   1          {
- 102   2              INTCLKO |= 0x10;
- 103   2          }else
- 104   1          {
- 105   2              INTCLKO &= ~0x10;
- 106   2          }
- 107   1          AC_220V_out(eeprom.ac220_info>>1);
- 108   1      
- 109   1          /*    三路NTC alarm value初始化    */
- 110   1          eeprom.temp_alarm_value1 = ISP_Read(TEMP_ALARM1);
- 111   1          eeprom.temp_alarm_value2 = ISP_Read(TEMP_ALARM2);
- 112   1          eeprom.temp_alarm_value3 = ISP_Read(TEMP_ALARM3);
- 113   1      
- 114   1          temp.temp_alarm_value1 = eeprom.temp_alarm_value1;
- 115   1          temp.temp_alarm_value2 = eeprom.temp_alarm_value2;
-C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        02/09/2025 15:24:14 PAGE 3   
-
- 116   1          temp.temp_alarm_value3 = eeprom.temp_alarm_value3;
- 117   1      }
+  97   1          AC_220V_out(eeprom.ac220_info>>1);
+  98   1      
+  99   1          /*    三路NTC alarm value初始化    */
+ 100   1          eeprom.temp_alarm_value1 = ISP_Read(TEMP_ALARM1);
+ 101   1          eeprom.temp_alarm_value2 = ISP_Read(TEMP_ALARM2);
+ 102   1          eeprom.temp_alarm_value3 = ISP_Read(TEMP_ALARM3);
+ 103   1      
+ 104   1          temp.temp_alarm_value1 = eeprom.temp_alarm_value1;
+ 105   1          temp.temp_alarm_value2 = eeprom.temp_alarm_value2;
+ 106   1          temp.temp_alarm_value3 = eeprom.temp_alarm_value3;
+ 107   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    324    ----
+   CODE SIZE        =    306    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      6    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
+C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        02/13/2025 01:49:34 PAGE 3   
+
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

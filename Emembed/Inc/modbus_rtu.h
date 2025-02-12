@@ -20,6 +20,7 @@ typedef struct
     uint16_t start_addr;                 //查询起始位置
 }MODBIS_INFO;
 
+
 extern MODBIS_INFO modbus;
 
 void Modbus_Event( void );
@@ -29,6 +30,6 @@ void Modbus_Fun6( void );
 void Modbus_Fun16( void );
 void slave_to_master(uint8_t length);
 uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length);
-
+void slave_scan( void );
 
 #endif

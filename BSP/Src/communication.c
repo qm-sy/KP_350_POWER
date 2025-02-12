@@ -21,6 +21,7 @@ void Uart2_Send_Statu_Init( void )
     rs485.RX2_rev_timeout = 0;
     rs485.RX2_rev_cnt = 0;
     DR2 = 0;
+    rs485.send_scan_flag = 0;
 }
 
 /**

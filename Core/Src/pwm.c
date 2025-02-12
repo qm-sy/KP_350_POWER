@@ -21,7 +21,7 @@ void PWM_Init( void )
     PWMB_CCMR3 = 0x70;          //输入捕获n滤波器选择 PWM7
     PWMB_CCMR4 = 0x70;          //输入捕获n滤波器选择 PWM8
 
-    //PWMB_CCER2 = 0x11;          //配置通道PWM7 & PWM8 输出使能和极性 
+    PWMB_CCER2 = 0x11;          //配置通道PWM7 & PWM8 输出使能和极性 
 
     PWMB_ARR   = 0x0451;        //设置自动重装载寄存器值:1105
                  

@@ -85,24 +85,15 @@ void Modbus_Fun3( void )
             /*  40001  两路PWM 开关状态及风速查询                 */
             case 0:
                 modbus.byte_info_H  = 0X00;
-                modbus.byte_info_L |= (PWMB_CCR7 / 184)<<2;                  //PWM7风速
-                modbus.byte_info_L |= (PWMB_CCR8 / 184)<<5;                  //PWM8风速
-                if( PWMB_CCER2 & 0X01 )
-                {
-                    modbus.byte_info_L |= 0x01;                              //PWM7开关状态
-                }
-                if( PWMB_CCER2 & 0X10 )
-                {
-                    modbus.byte_info_L |= 0x02;                              //PWM8开关状态
-                }
+                modbus.byte_info_L |= ((PWMB_CCR7 / 184) | (PWMB_CCR8 / 184)<<4);   //PWM7\8风速
                 break;
 
             /*  40002  LED开关状态查询                          */
             case 1:
                 modbus.byte_info_H = 0X00;
-                if( DC_24V & 1 )
+                if( DC_24V == 0 )
                 {
-                    modbus.byte_info_L |= 0x00;                              //LED开关状态
+                    modbus.byte_info_L |= 0x01;                              //LED开关状态
                 }
                 break;
 
@@ -216,24 +207,9 @@ void Modbus_Fun6( void )
         /*  40001  两路PWM 开关状态及风速设置                 */
         case 0:             
             memcpy(rs485.TX2_buf,rs485.RX2_buf,8);                            
-
-            if( rs485.TX2_buf[5] & 0X01 )
-            {
-                PWMB_CCER2 |= 0X01;
-            }else
-            {
-                PWMB_CCER2 &= 0XFE;
-            }
-            if( rs485.TX2_buf[5] & 0X02 )
-            {
-                PWMB_CCER2 |= 0X10;
-            }else
-            {
-                PWMB_CCER2 &= 0XEF;
-            }
             
-            PWMB_CCR7 = ((rs485.TX2_buf[5]>>2) & 0x07)*184;
-            PWMB_CCR8 = (rs485.TX2_buf[5]>>5)*184;
+            PWMB_CCR7 = ((rs485.TX2_buf[5]) & 0x0F)*184;
+            PWMB_CCR8 = (rs485.TX2_buf[5]>>4)*184;
 
             rs485.TX2_send_bytelength = 8;
 
@@ -276,9 +252,13 @@ void Modbus_Fun6( void )
             if( rs485.TX2_buf[5] & 0X01 )
             {
                 INTCLKO |= 0x10;
+                temp.temp_scan_allow_flag = 1;
+                AC_Out1 = AC_Out2 = AC_Out3 = 0;
             }else
             {
                 INTCLKO &= ~0x10;
+                temp.temp_scan_allow_flag = 0;
+                AC_Out1 = AC_Out2 = AC_Out3 = 1;
             }
             AC_220V_out(rs485.TX2_buf[5]>>1);
 
@@ -356,23 +336,8 @@ void Modbus_Fun16( void )
         {
             /*  40001  两路PWM 开关状态及风速设置                 */
             case 0:
-                if( modbus.byte_info_L & 0X01 )
-                {
-                    PWMB_CCER2 |= 0X01;
-                }else
-                {
-                    PWMB_CCER2 &= 0XFE;
-                }
-                if( modbus.byte_info_L & 0X02 )
-                {
-                    PWMB_CCER2 |= 0X10;
-                }else
-                {
-                    PWMB_CCER2 &= 0XEF;
-                }
-                
-                PWMB_CCR7 = ((modbus.byte_info_L>>2) & 0x07)*184;
-                PWMB_CCR8 =  (modbus.byte_info_L>>5)*184;
+                PWMB_CCR7 = (modbus.byte_info_L & 0x0F)*184;
+                PWMB_CCR8 = (modbus.byte_info_L)*184;
 
                 eeprom.pwm_info = modbus.byte_info_L;
                 break;
@@ -395,9 +360,13 @@ void Modbus_Fun16( void )
                 if( modbus.byte_info_L & 0X01 )
                 {
                     INTCLKO |= 0x10;
+                    temp.temp_scan_allow_flag = 1;
+                    AC_Out1 = AC_Out2 = AC_Out3 = 0;
                 }else
                 {
                     INTCLKO &= ~0x10;
+                    temp.temp_scan_allow_flag = 0;
+                    AC_Out1 = AC_Out2 = AC_Out3 = 1;
                 }
                 AC_220V_out(modbus.byte_info_L>>1);
 
@@ -501,3 +470,44 @@ void slave_to_master(uint8_t length)
     delay_ms(5);
     S2CON |= S2TI;                                  //开始发送
 }
+
+// void slave_scan( void )
+// {
+//     uint8_t send_buf[12];
+//     uint16_t crc;
+//     if( rs485.send_scan_flag == 1)
+//     {
+//         send_buf[0] = 0x35;
+//         send_buf[1] = 0x03;
+//         send_buf[2] = temp.temp_value1;
+//         send_buf[3] = temp.temp_value2;
+//         send_buf[4] = temp.temp_value3;
+//         send_buf[5] = get_current(I_OUT1); 
+//         send_buf[6] = get_current(I_OUT2); 
+//         send_buf[7] = get_current(I_OUT3); 
+//         send_buf[8] = ((PWMB_CCR8/184)<<4 | (PWMB_CCR8/184));
+//         if( INTCLKO & 0x10 )
+//         {
+//             send_buf[9] = 0x01;                             //220V运行状态
+//         }else
+//         {
+//             send_buf[9] = 0x00;
+//         }
+//         send_buf[10]= (uint8_t)((ac_220.time_delay-58000)/75);
+
+//         crc = MODBUS_CRC16(send_buf,11);
+    
+//         send_buf[11] = crc>>8;
+//         send_buf[12] = crc;
+    
+//         memcpy(rs485.TX2_buf,send_buf,13);
+    
+//         rs485.TX2_send_bytelength = 13;
+//         DR2 = 1;                                        //485可以发送
+//         delay_ms(5);
+//         S2CON |= S2TI;                                  //开始发送
+
+//         rs485.send_scan_flag = 0;
+//         //DR2 = 0;
+//     }  
+// }

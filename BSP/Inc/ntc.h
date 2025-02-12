@@ -20,6 +20,7 @@ typedef struct
     uint8_t  temp_alarm_value2;          
     uint8_t  temp_alarm_value3;    
     uint8_t  temp_scan_flag;
+    uint8_t  temp_scan_allow_flag;
 }TEMP;
 
 extern TEMP temp;
