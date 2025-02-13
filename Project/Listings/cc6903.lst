@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   CC6903                                                            02/13/2025 09:55:26 PAGE 1   
+C51 COMPILER V9.60.7.0   CC6903                                                            02/13/2025 13:47:50 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE CC6903
@@ -50,19 +50,19 @@ line level    source
   39   1          {
   40   2              current = 30;
   41   2          }
-  42   1          printf("The value of current is %d \r\n ",current);
+  42   1          //printf("The value of current is %d \r\n ",current);
   43   1          return current;
   44   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    221    ----
-   CONSTANT SIZE    =     31    ----
-   XDATA SIZE       =   ----       6
+   CODE SIZE        =    173    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       4
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.7.0   CC6903                                                            02/13/2025 09:55:26 PAGE 2   
+C51 COMPILER V9.60.7.0   CC6903                                                            02/13/2025 13:47:50 PAGE 2   
 
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

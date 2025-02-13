@@ -77,10 +77,10 @@ uint16_t get_temp( uint8_t channle_x )
             
 		}	       
     adc_val = adc_val/10;
-    printf("The average adc_val is %d \r\n",adc_val);
+    //printf("The average adc_val is %d \r\n",adc_val);
     /* 2, 查表，找到对应温度值                     */
     temp = LookupTable( MF52E_tab, NTCTabNum, adc_val );
-    printf("The temp is %d \r\n",temp);
+    //printf("The temp is %d \r\n",temp);
     return temp;
 }
 
@@ -100,30 +100,33 @@ void temp_scan( void )
         temp.temp_value2 =  get_temp(NTC_2);
         temp.temp_value3 =  get_temp(NTC_3);
 
-        if(( temp.temp_value1 >= temp.temp_alarm_value1 ) && ( temp.temp_scan_allow_flag == 1))
+        if( temp.temp_scan_allow_flag == 1)
         {
-            AC_Out1 = 1;        //001
-        }else
-        {
-            AC_Out1 = 0;
-        }
+            if( temp.temp_value1 >= temp.temp_alarm_value1 ) 
+            {
+                AC_Out1 = 1;        //001
+            }else
+            {
+                AC_Out1 = 0;
+            }
 
-        if(( temp.temp_value2 >= temp.temp_alarm_value2 ) && ( temp.temp_scan_allow_flag == 1))
-        {
-            AC_Out2 = 1;        //001
-        }else
-        {
-            AC_Out2 = 0;
-        }
+            if( temp.temp_value2 >= temp.temp_alarm_value2 ) 
+            {
+                AC_Out2 = 1;        //001
+            }else
+            {
+                AC_Out2 = 0;
+            }
 
-        if(( temp.temp_value3 >= temp.temp_alarm_value3 ) && ( temp.temp_scan_allow_flag == 1))
-        {
-            AC_Out3 = 1;        //001
-        }else
-        {
-            AC_Out3 = 0;
+            if( temp.temp_value3 >= temp.temp_alarm_value3 ) 
+            {
+                AC_Out3 = 1;        //001
+            }else
+            {
+                AC_Out3 = 0;
+            }
+    
         }
-
         temp.temp_scan_flag = 0;
     }
 }

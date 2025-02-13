@@ -12,6 +12,7 @@
 "..\Output\cc6903.obj",
 "..\Output\communication.obj",
 "..\Output\eeprom_crl.obj",
+"..\Output\dht11.obj",
 "..\Output\modbus_rtu.obj",
 "..\Output\common.obj" 
 TO "..\Output\KP_MultiFunPower_V001" 

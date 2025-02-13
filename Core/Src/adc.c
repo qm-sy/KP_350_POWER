@@ -48,6 +48,6 @@ uint16_t Get_ADC_12bit( uint8_t ADC_Channel )
 
 	/* 3, 赋值给 adc_value 作为返回值           */
 	adc_value = ADC_RES << 8 | ADC_RESL;			//ADC转换结果ADC_RES存高4位，ADC_RESL存低8位
-	printf("The adc_val is %d \r\n",adc_value);
+	//printf("The adc_val is %d \r\n",adc_value);
 	return adc_value;	
 }

@@ -471,6 +471,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\eeprom_crl.c</FilePath>
             </File>
+            <File>
+              <FileName>dht11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\dht11.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

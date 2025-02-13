@@ -31,6 +31,7 @@ void main( void )
     EA = 1;
 
     eeprom_statu_judge();
+    A1_DHT11 = 1;
     printf("========== code start ========== \r\n");
     //printf("========== code start ========== \r\n");
     
@@ -38,6 +39,8 @@ void main( void )
     {
         Modbus_Event();
         temp_scan();
+        //  DHT11_TEST();
+        // delay_ms(1000);
         //slave_scan();
     }  
 }
