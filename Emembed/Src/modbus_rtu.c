@@ -337,7 +337,7 @@ void Modbus_Fun16( void )
             /*  40001  两路PWM 开关状态及风速设置                 */
             case 0:
                 PWMB_CCR7 = (modbus.byte_info_L & 0x0F)*184;
-                PWMB_CCR8 = (modbus.byte_info_L)*184;
+                PWMB_CCR8 = (modbus.byte_info_L>>4)*184;
 
                 eeprom.pwm_info = modbus.byte_info_L;
                 break;
